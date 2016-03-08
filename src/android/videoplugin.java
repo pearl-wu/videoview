@@ -15,6 +15,7 @@ import android.net.Uri;
  * This class echoes a string called from JavaScript.
  */
 public class videoplugin extends CordovaPlugin {
+    protected static final String LOG_TAG = "videoplugin";
     private CallbackContext callbackContext = null;
     @Override
     public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
