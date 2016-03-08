@@ -1,8 +1,7 @@
-package org.ihopkc.videoplayer;
+package tw.com.bais.videoview2;
 
 //change this (com.phonegap.helloworld) to your package name, keep the .R
 //example: your.package.name.R;
-import com.phonegap.helloworld.R;
 
 import java.io.BufferedReader;
 import java.io.IOException;
