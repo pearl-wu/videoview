@@ -1,1 +1,40 @@
 
+<?xml version="1.0" encoding="UTF-8"?>
+
+<plugin xmlns="http://www.phonegap.com/ns/plugins/1.0"
+        id="tw.com.bais.videoview2"
+        version="1.0">
+    <name>Android Video Player</name>
+    <description></description>
+    <license></license>
+    <keywords></keywords>
+    
+    
+    <js-module src="www/videoplayer.js" name="videoplayer">
+        <clobbers  target="window.androidPlay" />
+    </js-module>
+    
+    <platform name="android">
+        <config-file target="res/xml/config.xml" parent="/*">
+            
+            <feature name="videoplugin">
+                <param name="android-package" value="tw.com.bais.videoview2.videoplugin"/>
+            </feature>
+            
+
+        </config-file>
+ 
+         <config-file target="AndroidManifest.xml" parent="/manifest/application">
+                  <activity android:configChanges="orientation|keyboardHidden|screenSize" android:name="tw.com.bais.videoview2.play" android:screenOrientation="landscape" android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen">
+                   </activity>
+        </config-file>
+
+        <source-file src="src/android/play.java" target-dir="src/tw/com/bais/videoview2" />
+        <source-file src="src/android/videoplugin.java" target-dir="src/tw/com/bais/videoview2" />
+        <source-file src="src/android/activity_player.xml" target-dir="res/layout" />       
+     </platform>          
+</plugin>
+    
+    
+    
+  
