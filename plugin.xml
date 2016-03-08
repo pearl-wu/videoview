@@ -17,19 +17,16 @@
     
     <platform name="android">
         <config-file target="res/xml/config.xml" parent="/*">
-            
-            <config-file target="AndroidManifest.xml" parent="/*">
-		  <uses-permission android:name="android.permission.INTERNET" />
-		  <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-		  <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-	    </config-file>
-            
             <feature name="videoplugin">
                 <param name="android-package" value="tw.com.bais.videoview2.videoplugin"/>
             </feature>
-            
-
         </config-file>
+        
+        <config-file target="AndroidManifest.xml" parent="/*">
+		  <uses-permission android:name="android.permission.INTERNET" />
+		  <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+		  <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+	</config-file>
  
          <config-file target="AndroidManifest.xml" parent="/manifest/application">
                   <activity android:configChanges="orientation|keyboardHidden|screenSize" android:name="tw.com.bais.videoview2.play" android:screenOrientation="landscape" android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen">
