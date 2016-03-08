@@ -4,18 +4,25 @@
 <plugin xmlns="http://www.phonegap.com/ns/plugins/1.0"
         id="tw.com.bais.videoview2"
         version="1.0">
-    <name>Android Video Player</name>
-    <description></description>
-    <license></license>
-    <keywords></keywords>
-    
-    
-    <js-module src="www/videoplayer.js" name="videoplayer">
-        <clobbers  target="window.androidPlay" />
+   <name>Video Player</name>
+    <description>Native Video Player Plugin</description>
+    <license>pearl</license>
+    <keywords>media,video player</keywords>
+    <repo>https://github.com/pearl-wu/video_view.git</repo>
+    <issue>https://github.com/pearl-wu/video_view.git</issue>
+
+    <js-module src="www/videoplayer.js" name="VideoPlayer">
+        <clobbers target="VideoPlayer" />
     </js-module>
     
     <platform name="android">
         <config-file target="res/xml/config.xml" parent="/*">
+            
+            <config-file target="AndroidManifest.xml" parent="/*">
+		  <uses-permission android:name="android.permission.INTERNET" />
+		  <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+		  <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+	    </config-file>
             
             <feature name="videoplugin">
                 <param name="android-package" value="tw.com.bais.videoview2.videoplugin"/>
