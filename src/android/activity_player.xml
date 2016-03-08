@@ -1,0 +1,54 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#000000"
+    tools:context="org.ihopkc.videoplayer.Player" >
+
+    <VideoView
+        android:id="@+id/videoView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+  
+    
+    <ImageButton
+        android:id="@+id/imageButton1"
+        android:layout_width="fill_parent"
+        android:layout_height="100dp"
+        android:layout_gravity="bottom"
+        android:background="@null" />
+     <Button
+        android:id="@+id/closeBanner"
+        android:layout_width="70dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center|bottom"
+        android:background="@null"
+        android:padding="6dip"
+        android:textColor="#cccccc"
+        android:textColorHighlight="#FFFFFF"
+        android:textSize="14sp"
+        android:visibility="gone" 
+         />
+     
+    <ProgressBar
+        android:id="@+id/progressBar1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center" />
+
+    <Button
+        android:id="@+id/skipButton"
+        android:layout_width="170dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right|bottom"
+        android:background="#80000000"
+        android:padding="6dip"
+        android:textColor="#cccccc"
+        android:textColorHighlight="#FFFFFF"
+        android:textSize="24sp"
+        android:visibility="gone" />
+
+</FrameLayout>
+
+
+
