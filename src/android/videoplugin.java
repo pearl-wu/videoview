@@ -1,4 +1,4 @@
-package org.ihopkc.videoplayer;
+package tw.com.bais.videoview2;
 
 import org.apache.cordova.CordovaPlugin;
 import org.apache.cordova.CallbackContext;
