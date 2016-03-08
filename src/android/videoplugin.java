@@ -2,10 +2,14 @@ package tw.com.bais.videoview2;
 
 import org.apache.cordova.CordovaPlugin;
 import org.apache.cordova.CallbackContext;
+import org.apache.cordova.CordovaResourceApi;
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
+
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 
 /**
  * This class echoes a string called from JavaScript.
