@@ -19,7 +19,7 @@
    
     <config-file target="res/xml/config.xml" parent="/*">
           <feature name="YunOSOrder">
-            <param name="android-package" value="com.yinos.pay.YunOSOrder"/>
+            <param name="android-package" value="com.yunos.pay.YunOSOrder"/>
           </feature>
     </config-file>
 	<config-file target="AndroidManifest.xml" parent="/*">
