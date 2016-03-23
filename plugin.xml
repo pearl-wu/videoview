@@ -16,14 +16,20 @@
     </js-module>
 
     <platform name="android">
-
+        
         <config-file target="res/xml/config.xml" parent="/*">
             <feature name="VideoPlayer">
-                <param name="android-package" value="com.moust.cordova.videoplayer.VideoPlayer"/>
+                <param name="android-package" value="com.bais.moust.videoplayer.VideoPlayer"/>
             </feature>
         </config-file>
+        
+                <config-file target="AndroidManifest.xml" parent="/*">
+		  <uses-permission android:name="android.permission.INTERNET" />
+		  <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+		  <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+		</config-file>
 
-        <source-file src="src/android/VideoPlayer.java" target-dir="src/com/moust/cordova/videoplayer" />
+        <source-file src="src/android/VideoPlayer.java" target-dir="src/com/bais/moust/videoplayer/videoplayer" />
 
     </platform>
 
