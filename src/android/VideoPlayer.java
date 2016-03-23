@@ -44,14 +44,7 @@ public class VideoPlayer extends CordovaPlugin implements OnCompletionListener, 
     private int videoX;
     private int videoY;
     private Boolean streaming;
-    /**
-     * Executes the request and returns PluginResult.
-     *
-     * @param action        The action to execute.
-     * @param args          JSONArray of arguments for the plugin.
-     * @param callbackId    The callback id used when calling back into JavaScript.
-     * @return              A PluginResult object with a status and message.
-     */
+
     public boolean execute(String action, CordovaArgs args, CallbackContext callbackContext) throws JSONException {
         if (action.equals("play")) {
             
@@ -76,7 +69,7 @@ public class VideoPlayer extends CordovaPlugin implements OnCompletionListener, 
                 callbackContext = null;
                 return false;
             }
-
+/*
             String fileUriStr;
             try {
                 Uri targetUri = resourceApi.remapUri(Uri.parse(target));
@@ -101,7 +94,7 @@ public class VideoPlayer extends CordovaPlugin implements OnCompletionListener, 
             pluginResult.setKeepCallback(true);
             callbackContext.sendPluginResult(pluginResult);
             callbackContext = null;
-
+*/
             return true;
         }
         else if (action.equals("close")) {
@@ -125,13 +118,6 @@ public class VideoPlayer extends CordovaPlugin implements OnCompletionListener, 
         return false;
     }
 
-    /**
-     * Removes the "file://" prefix from the given URI string, if applicable.
-     * If the given URI string doesn't have a "file://" prefix, it is returned unchanged.
-     *
-     * @param uriString the URI string to operate on
-     * @return a path without the "file://" prefix
-     */
     public static String stripFileProtocol(String uriString) {
         if (uriString.startsWith("file://")) {
             return Uri.parse(uriString).getPath();
