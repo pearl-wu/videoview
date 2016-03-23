@@ -10,6 +10,10 @@
     <keywords>media,video player</keywords>
     <repo>https://github.com/pearl-wu/video_view.git</repo>
     <issue>https://github.com/pearl-wu/video_view.git</issue>
+   
+    <engines>
+        <engine name="cordova" version=">=4.0.0" />
+    </engines>
 
     <js-module src="www/videoplayer.js" name="VideoPlayer">
         <clobbers target="VideoPlayer" />
