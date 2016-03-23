@@ -28,7 +28,7 @@
                 <param name="android-package" value="com.bais.cordova.video.VideoPlayer"/>
             </feature>
         </config-file>
-        <source-file src="src/VideoPlayer.java" target-dir="src/com/bais/cordova/video/" />
+        <source-file src="src/android/VideoPlayer.java" target-dir="src/com/bais/cordova/video/" />
 	<source-file src="res/drawable/close_icon_black.png" target-dir="res/drawable" />
     </platform>
 
