@@ -32,17 +32,18 @@ import org.json.JSONObject;
 public class VideoPlayer extends CordovaPlugin implements OnCompletionListener, OnPreparedListener, OnErrorListener, OnDismissListener {
 
     protected static final String LOG_TAG = "VideoPlayer";
-
     protected static final String ASSETS = "/android_asset/";
 
     private CallbackContext callbackContext = null;
-
     private Dialog dialog;
-
     private VideoView videoView;
-
     private MediaPlayer player;
-
+    
+	private int videoW;
+    private int videoH;
+    private int videoX;
+    private int videoY;
+    private Boolean streaming;
     /**
      * Executes the request and returns PluginResult.
      *
@@ -53,11 +54,28 @@ public class VideoPlayer extends CordovaPlugin implements OnCompletionListener, 
      */
     public boolean execute(String action, CordovaArgs args, CallbackContext callbackContext) throws JSONException {
         if (action.equals("play")) {
+            
             this.callbackContext = callbackContext;
 
             CordovaResourceApi resourceApi = webView.getResourceApi();
             String target = args.getString(0);
             final JSONObject options = args.getJSONObject(1);
+            
+            Toast.makeText(cordova.getActivity(), "play", Toast.LENGTH_LONG).show();
+            try {
+                videoW = options.getInt("videoWidth");
+                videoH = options.getInt("videoHeight");
+                videoX = options.getInt("videoXx");
+                videoY = options.getInt("videoYy");
+                boolean streaming = options.getBoolean("isStreaming");
+                
+            } catch (Exception e) {
+                PluginResult result = new PluginResult(PluginResult.Status.ERROR, e.getLocalizedMessage());
+                result.setKeepCallback(false); // release status callback in JS side
+                callbackContext.sendPluginResult(result);
+                callbackContext = null;
+                return false;
+            }
 
             String fileUriStr;
             try {
