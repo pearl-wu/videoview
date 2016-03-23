@@ -29,7 +29,7 @@
 		  <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 		</config-file>
 
-        <source-file src="src/android/VideoPlayer.java" target-dir="src/com/bais/moust/videoplayer/videoplayer" />
+        <source-file src="src/android/VideoPlayer.java" target-dir="src/com/bais/moust/videoplayer/" />
 
     </platform>
 
