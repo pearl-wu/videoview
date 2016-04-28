@@ -19,7 +19,7 @@ import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.Toast;
-import tw.com.bais.video.R;
+
 
 public class VideoPlayerActivity extends Activity implements SurfaceHolder.Callback, MediaPlayer.OnPreparedListener, VideoControllerView.MediaPlayerControl, OnCompletionListener, OnVideoSizeChangedListener, OnBufferingUpdateListener {
     
