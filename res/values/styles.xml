@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+    
+    <style name="button_pause"> 
+   	   <item name="android:background">@drawable/pause</item>
+   </style>
+    
+   <style name="button_play">
+   	   <item name="android:background">@drawable/play</item>
+   </style>   
+   
+   <style name="button_ffwd">
+   	   <item name="android:background">@drawable/ffwd</item>
+   </style> 
+   
+   <style name="button_rew">
+   	   <item name="android:background">@drawable/rew</item>
+   </style> 
+   
+   <style name="button_next">
+   	   <item name="android:background">@drawable/next</item>
+   </style> 
+   
+   <style name="button_prev">
+   	   <item name="android:background">@drawable/prev</item>
+   </style> 
+
+</resources>
