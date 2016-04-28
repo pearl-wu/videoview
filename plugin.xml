@@ -43,7 +43,7 @@
 	<source-file src="res/drawable-hdpi/" target-dir="res" />
 	<source-file src="res/drawable-ldpi/" target-dir="res" />
 	<source-file src="res/drawable-mdpi/" target-dir="res" />
-	<source-file src="res/layout/" target-dir="res/layout" />
+	<source-file src="res/layout/" target-dir="res/" />
 	<source-file src="res/values/styles.xml" target-dir="res/values" />
     </platform>
 
