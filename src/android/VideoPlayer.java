@@ -26,7 +26,6 @@ import org.apache.cordova.CordovaPlugin;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import tw.com.bais.video.R;
 
 
 public class VideoPlayer extends CordovaPlugin{
