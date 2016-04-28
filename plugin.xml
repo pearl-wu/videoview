@@ -39,10 +39,10 @@
         <source-file src="src/android/VideoPlayer.java" target-dir="src/com/bais/cordova/video/" />
         <source-file src="src/android/VideoControllerView.java" target-dir="src/com/bais/cordova/video/" />
         <source-file src="src/android/VideoPlayerActivity.java" target-dir="src/com/bais/cordova/video/" />
-	<source-file src="res/drawable/" target-dir="res/drawable" />
-	<source-file src="res/drawable-hdpi/" target-dir="res/drawable-hdpi" />
-	<source-file src="res/drawable-ldpi/" target-dir="res/drawable-ldpi" />
-	<source-file src="res/drawable-mdpi/" target-dir="res/drawable-mdpi" />
+	<source-file src="res/drawable/" target-dir="res" />
+	<source-file src="res/drawable-hdpi/" target-dir="res" />
+	<source-file src="res/drawable-ldpi/" target-dir="res" />
+	<source-file src="res/drawable-mdpi/" target-dir="res" />
 	<source-file src="res/layout/" target-dir="res/layout" />
 	<source-file src="res/values/styles.xml" target-dir="res/values" />
     </platform>
