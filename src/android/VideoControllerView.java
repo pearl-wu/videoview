@@ -29,8 +29,6 @@ import java.lang.ref.WeakReference;
 import java.util.Formatter;
 import java.util.Locale;
 
-import tw.com.bais.video.R;
-
 
 public class VideoControllerView extends FrameLayout {
 private static final String TAG = "VideoControllerView";
