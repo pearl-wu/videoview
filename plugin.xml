@@ -21,10 +21,14 @@
 	
     <platform name="android">
     	
+    	<config-file target="AndroidManifest.xml" parent="/*">
+		<activity android:name="com.bais.cordova.video.VideoPlayerActivity" android:screenOrientation="landscape" />
+	</config-file>
+    	
 	<config-file target="AndroidManifest.xml" parent="/*">
-		  <uses-permission android:name="android.permission.INTERNET" />
-		  <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-		  <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+		<uses-permission android:name="android.permission.INTERNET" />
+		<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+		<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 	</config-file>
     	
         <config-file target="res/xml/config.xml" parent="/*">
