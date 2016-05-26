@@ -9,16 +9,19 @@ module.exports = {
         leftV: 0
     },
     
-    beginning: function (options, successCallback, errorCallback) {
+    frame_play: function (options, successCallback, errorCallback) {
       options = this.merge(this._OPTIONS, options);  
-        exec(successCallback, errorCallback, "VideoPlayer", "beginning", [options]);
+        exec(successCallback, errorCallback, "VideoPlayer", "frame_play", [options]);
     },
     
     many_play: function (paths, number, successCallback, errorCallback) {
-       
         exec(successCallback, errorCallback, "VideoPlayer", "many_play", [paths, number]);
     },
-
+    
+    custom_play: function (paths, number, successCallback, errorCallback) {
+        exec(successCallback, errorCallback, "VideoPlayer", "custom_play", [paths, number]);
+    },
+    
     play: function (path, successCallback, errorCallback) {
         exec(successCallback, errorCallback, "VideoPlayer", "play", [path]);
     },
