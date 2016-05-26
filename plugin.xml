@@ -36,15 +36,8 @@
                 <param name="android-package" value="com.bais.cordova.video.VideoPlayer"/>
             </feature>
         </config-file>
-        <source-file src="src/android/VideoPlayer.java" target-dir="src/com/bais/cordova/video/" />
-        <source-file src="src/android/VideoControllerView.java" target-dir="src/com/bais/cordova/video/" />
-        <source-file src="src/android/VideoPlayerActivity.java" target-dir="src/com/bais/cordova/video/" />
-	<source-file src="res/drawable/" target-dir="res" />
-	<source-file src="res/drawable-hdpi/" target-dir="res" />
-	<source-file src="res/drawable-ldpi/" target-dir="res" />
-	<source-file src="res/drawable-mdpi/" target-dir="res" />
-	<source-file src="res/layout/" target-dir="res/" />
-	<source-file src="res/values/styles.xml" target-dir="res/values" />
+        <source-file src="src/android/" target-dir="src/com/bais/cordova/video/" />
+	<source-file src="res/" target-dir="res" />
     </platform>
 
 </plugin>
