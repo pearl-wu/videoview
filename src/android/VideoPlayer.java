@@ -28,11 +28,13 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 
+
 public class VideoPlayer extends CordovaPlugin{
 
     private static final String TAG = "BACKGROUND_VIDEO";
-    private static final String ACTION_START_RECORDING = "beginning";
-    private static final String ACTION_MANY_RECORDING = "many_play"; 
+    private static final String ACTION_FRAME_RECORDING = "frame_play";
+    private static final String ACTION_MANY_RECORDING = "many_play";
+    private static final String ACTION_CUSTOM_RECORDING = "custom_play";
     private static final String ACTION_PLAY_RECORDING = "play";
     private static final String ACTION_STOP_RECORDING = "stop";
     private static final int ACTIVITY_CODE_PLAY_MEDIA = 7;
@@ -53,7 +55,7 @@ public class VideoPlayer extends CordovaPlugin{
     	try {
         	
             Log.d(TAG, "ACTION: " + action);
-            if(ACTION_START_RECORDING.equals(action)){
+            if(ACTION_FRAME_RECORDING.equals(action)){
             	
             	final JSONObject options = args.getJSONObject(0);
                     //Get screen dimensions
@@ -77,11 +79,11 @@ public class VideoPlayer extends CordovaPlugin{
             	
             	FILE_NAME = args.getString(0);
             	
-            	/*Animation am = new AlphaAnimation(1.0f, 0.0f);
-            	am.setDuration(1000);
-            	am.setRepeatCount( 0 );
-            	image_over.setAnimation(am);
-            	am.startNow();*/
+            	//Animation am = new AlphaAnimation(1.0f, 0.0f);
+            	//am.setDuration(1000);
+            	//am.setRepeatCount( 0 );
+            	//image_over.setAnimation(am);
+            	//am.startNow();
             	            	
             	cordova.getActivity().runOnUiThread(new Runnable() {
                     @Override
@@ -120,7 +122,6 @@ public class VideoPlayer extends CordovaPlugin{
                             	am.setDuration(1000);
         		            	image_over.setAnimation(am);
                             	am.startNow();
-                        		
                      			image_play.setVisibility(View.VISIBLE);
                      			image_over.setVisibility(View.VISIBLE);
                             	main.removeView(surfaceview);
@@ -150,14 +151,35 @@ public class VideoPlayer extends CordovaPlugin{
                  			image_over.setVisibility(View.VISIBLE);
                  			image_over.setAlpha(1.0f);
                  			Vclose = 1;
-            			}	
-            			
-            			//play(videocontroller.class, NUMBER, video_names);
-            			play(VideoPlayerActivity.class, NUMBER, video_names);
+            			}
+            			play(videocontroller.class, NUMBER, video_names);
             		}
             	});
               return true;
             }
+            
+            if(ACTION_CUSTOM_RECORDING.equals(action)){
+            	final JSONArray video_names = args.getJSONArray(0);
+            	NUMBER = args.getInt(1); 
+            	
+            	cordova.getActivity().runOnUiThread(new Runnable() {
+            		@Override
+            		public void run(){
+            			
+            			if(Vclose == 2){
+            				main.removeView(surfaceview);
+                    		Mplayer.release();
+                			image_play.setVisibility(View.VISIBLE);
+                 			image_over.setVisibility(View.VISIBLE);
+                 			image_over.setAlpha(1.0f);
+                 			Vclose = 1;
+            			}	
+            			play(VideoPlayerActivity.class, NUMBER, video_names);
+            		}
+            	});
+              return true;	
+            }
+                       
 
             callbackContext.error(TAG + ": INVALID ACTION");
             return false;
