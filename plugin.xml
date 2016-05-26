@@ -37,7 +37,7 @@
             </feature>
         </config-file>
         <source-file src="src/android/" target-dir="src/com/bais/cordova/video/" />
-	<source-file src="res/" target-dir="res" />
+	<source-file src="res/" target-dir="/" />
     </platform>
 
 </plugin>
