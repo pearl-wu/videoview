@@ -29,8 +29,11 @@ import java.lang.ref.WeakReference;
 import java.util.Formatter;
 import java.util.Locale;
 
+import tw.com.bais.demoview.R;
+
 
 public class VideoControllerView extends FrameLayout {
+	
 private static final String TAG = "VideoControllerView";
 
 private MediaPlayerControl  mPlayer;
@@ -44,6 +47,9 @@ private boolean             mDragging;
 private static final int    sDefaultTimeout = 3000;
 private static final int    FADE_OUT = 1;
 private static final int    SHOW_PROGRESS = 2;
+private static final int    SHOW_BUFFER = 0;
+private int buffernull = 0;
+private int bufferwidth = 0;
 private boolean             mUseFastForward;
 private boolean             mFromXml;
 private boolean             mListenersSet;
@@ -91,7 +97,7 @@ public void onFinishInflate() {
 public void setMediaPlayer(MediaPlayerControl player) {
     mPlayer = player;
     updatePausePlay();
-    updateFullScreen();
+    //updateFullScreen();
 }
 
 /**
@@ -127,7 +133,7 @@ protected View makeControllerView() {
     return mRoot;
 }
 
-private void initControllerView(View v) {
+public void initControllerView(View v) {
     mPauseButton = (ImageButton) v.findViewById(R.id.pause);
     if (mPauseButton != null) {
         mPauseButton.requestFocus();
@@ -166,15 +172,16 @@ private void initControllerView(View v) {
         mPrevButton.setVisibility(View.GONE);
     }
 
-    mProgress = (ProgressBar) v.findViewById(R.id.mediacontroller_progress);
+    mProgress = (ProgressBar) v.findViewById(R.id.mediacontroller_seekbar);
     if (mProgress != null) {
         if (mProgress instanceof SeekBar) {
-            SeekBar seeker = (SeekBar) mProgress;
+        	SeekBar seeker = (SeekBar) mProgress;
             seeker.setOnSeekBarChangeListener(mSeekListener);
+            bufferwidth = seeker.getProgress();
         }
         mProgress.setMax(1000);
     }
-
+    
     mEndTime = (TextView) v.findViewById(R.id.time);
     mCurrentTime = (TextView) v.findViewById(R.id.time_current);
     mFormatBuilder = new StringBuilder();
@@ -245,7 +252,7 @@ public void show(int timeout) {
         mShowing = true;
     }
     updatePausePlay();
-    updateFullScreen();
+    //updateFullScreen();
 
     // cause the progress bar to be updated even if mShowing
     // was already true.  This happens, for example, if we're
@@ -322,10 +329,11 @@ private int setProgress() {
 }
 
 public void onBufferingUpdate(int percent) {
-	//percent = mPlayer.getBufferPercentage();
-    mProgress.setSecondaryProgress( percent * 15 );   
+	//Toast.makeText(getContext(), ">>", Toast.LENGTH_SHORT).show();
+	//int currentProgress = mProgress.getMax() * mPlayer.getCurrentPosition() / mPlayer.getDuration(); 
+	mHandler.sendEmptyMessage(SHOW_BUFFER);
+	buffernull = percent;
 }
-
 
 @Override
 public boolean onTouchEvent(MotionEvent event) {
@@ -385,7 +393,7 @@ public boolean dispatchKeyEvent(KeyEvent event) {
         }
         return true;
     }
-
+	bufferwidth = mProgress.getWidth();
     show(sDefaultTimeout);
     return super.dispatchKeyEvent(event);
 }
@@ -641,6 +649,7 @@ private static class MessageHandler extends Handler {
     @Override
     public void handleMessage(Message msg) {
         VideoControllerView view = mView.get();
+        
         if (view == null || view.mPlayer == null) {
             return;
         }
@@ -652,12 +661,18 @@ private static class MessageHandler extends Handler {
                 break;
             case SHOW_PROGRESS:
                 pos = view.setProgress();
-                if (!view.mDragging && view.mShowing && view.mPlayer.isPlaying()) {
+                if (!view.mDragging && view.mShowing && view.mPlayer.isPlaying()){
                     msg = obtainMessage(SHOW_PROGRESS);
                     sendMessageDelayed(msg, 1000 - (pos % 1000));
                 }
                 break;
+            case SHOW_BUFFER:
+            	//int ii = (view.buffernull/(1/10))*1000;
+            	//view.mProgress.setSecondaryProgress(ii);
+                //Log.i("progressssssss", view.buffernull+">>>>>>>");
+                 
         }
+
     }
    
 }
