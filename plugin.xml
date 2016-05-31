@@ -47,6 +47,9 @@
 	<source-file src="res/drawable/image_over.png" target-dir="res/drawable/" />
 	<source-file src="res/drawable/image_play.png" target-dir="res/drawable/" />
 	<source-file src="res/drawable/sb_bar.xml" target-dir="res/drawable/" />
+	<source-file src="res/drawable/animationset.xml" target-dir="res/drawable/" />
+	<source-file src="res/drawable/str.png" target-dir="res/drawable/" />
+	<source-file src="res/drawable/waiting.png" target-dir="res/drawable/" />
 	<source-file src="res/drawable/seekbar_horizontal.xml" target-dir="res/drawable/" />
 	<source-file src="res/drawable-hdpi/duck_bar.png" target-dir="res/drawable-hdpi" />
 	<source-file src="res/drawable-hdpi/ducky_bar.png" target-dir="res/drawable-hdpi" />
