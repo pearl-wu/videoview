@@ -26,10 +26,10 @@
 	);
 		
 ### custom_play video (自訂控制列)
-        var objs = new Array(
+	var objs = new Array(
 		"http://xxx.xxx.xxx.xxx/xxx.mp4",
 		"http://xxx.xxx.xxx.xxx/xxx.mp4",
 		"http://xxx.xxx.xxx.xxx/xxx.mp4",
 		"http://xxx.xxx.xxx.xxx/xxx.mp4"
 	);
-        VideoPlayer.custom_play(objs,2);
+	VideoPlayer.custom_play(objs,2);
