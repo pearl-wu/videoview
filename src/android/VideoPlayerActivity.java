@@ -2,6 +2,9 @@ package com.bais.cordova.video;
 
 import java.io.IOException;
 import java.util.ArrayList;
+
+import org.apache.cordova.LOG;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.pm.ActivityInfo;
@@ -11,22 +14,25 @@ import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnBufferingUpdateListener;
 import android.media.MediaPlayer.OnCompletionListener;
 import android.media.MediaPlayer.OnErrorListener;
-import android.media.MediaPlayer.OnVideoSizeChangedListener;
+import android.media.MediaPlayer.OnInfoListener;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.Toast;
 import tw.com.bais.demoview.R;
 
-public class VideoPlayerActivity extends Activity implements SurfaceHolder.Callback, MediaPlayer.OnPreparedListener, VideoControllerView.MediaPlayerControl, OnErrorListener, OnCompletionListener, OnVideoSizeChangedListener, OnBufferingUpdateListener {
+public class VideoPlayerActivity extends Activity implements SurfaceHolder.Callback, MediaPlayer.OnPreparedListener, VideoControllerView.MediaPlayerControl, OnInfoListener, OnErrorListener, OnCompletionListener, OnBufferingUpdateListener {
     
      private Bundle extras;
 	 private int number;
@@ -36,7 +42,12 @@ public class VideoPlayerActivity extends Activity implements SurfaceHolder.Callb
 	 private SurfaceHolder videoHolder;
 	 private MediaPlayer player;
 	 private VideoControllerView controller;
-	 private ImageView loading;
+	 private FrameLayout loading;
+	 private FrameLayout waitinging;
+	 private ImageView loadstr;
+	 private ImageView waiting;
+	 private Animation am_w;
+	 private boolean yes;
 	
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,11 +55,10 @@ public class VideoPlayerActivity extends Activity implements SurfaceHolder.Callb
     	
 		if(isNetworkConnected(this) == false){
 			this.finish();
-			Toast.makeText(getBaseContext(), "∫Ù∏Ù§§¬_°AΩ–¿À¨d∫Ù∏Ù≥sΩu°C", Toast.LENGTH_LONG).show();		
+			Toast.makeText(getBaseContext(), "Á∂≤Ë∑Ø‰∏≠Êñ∑ÔºåË´ãÊ™¢Êü•Á∂≤Ë∑ØÈÄ£Á∑ö„ÄÇ", Toast.LENGTH_LONG).show();		
 			return;
 		}
-		
-		
+
 		int currentOrientation = getResources().getConfiguration().orientation;	
 		switch(currentOrientation) {
 	      case Configuration.ORIENTATION_PORTRAIT:
@@ -57,8 +67,6 @@ public class VideoPlayerActivity extends Activity implements SurfaceHolder.Callb
 	       break;
 	     }
 
-    	
-    	
     	requestWindowFeature(Window.FEATURE_NO_TITLE);
 		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
@@ -66,14 +74,21 @@ public class VideoPlayerActivity extends Activity implements SurfaceHolder.Callb
         extras = getIntent().getExtras();
         number = extras.getInt("medianumber");
         mediaurls = extras.getStringArrayList("mediaUrl");  
-
         setContentView(R.layout.activity_video_player);
-        
         videoSurface = (SurfaceView) findViewById(R.id.videoSurface);
         videoSurface.setScrollBarSize(100);
+
+        loading = (FrameLayout) findViewById(R.id.loadinging);
+        loadstr = (ImageView) findViewById(R.id.imageView_b);        
+        Animation am = AnimationUtils.loadAnimation(this, R.drawable.animationset);
+        loadstr.startAnimation(am);
         
-        
-        loading = (ImageView) findViewById(R.id.imageView);
+        waitinging = (FrameLayout) findViewById(R.id.waitinging);
+        waiting = (ImageView) findViewById(R.id.imageView_w);
+        am_w = AnimationUtils.loadAnimation(this, R.drawable.wait_anima);
+        waiting.startAnimation(am_w);
+        waitinging.setVisibility(View.GONE);
+
 		//RelativeLayout.LayoutParams loadingLayoutParam = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.FILL_PARENT);
 		//loadingLayoutParam.addRule(RelativeLayout.ALIGN_PARENT_TOP);
 		//loading.setLayoutParams(loadingLayoutParam);
@@ -82,17 +97,15 @@ public class VideoPlayerActivity extends Activity implements SurfaceHolder.Callb
         videoHolder = videoSurface.getHolder();
         videoHolder.addCallback(this);
         controller = new VideoControllerView(this);
-               
         player = new MediaPlayer();
-        player.setOnErrorListener(this);
     	player.setOnCompletionListener(this);
     	player.setOnPreparedListener(this);
-    	player.setOnVideoSizeChangedListener(this);
     	player.setOnBufferingUpdateListener(this);
+    	player.setOnErrorListener(this);
+    	player.setOnInfoListener(this);
    		playering();
-    }
-    
-    
+    }    
+
     public void playering(){
     	try {
     		player.setAudioStreamType(AudioManager.STREAM_MUSIC);
@@ -123,12 +136,7 @@ public class VideoPlayerActivity extends Activity implements SurfaceHolder.Callb
     }
 
     @Override
-    public void surfaceDestroyed(SurfaceHolder holder) {
-    	//player.stop();
-    	//player.release();
-    	finish();
-    	//android.os.Process.killProcess(android.os.Process.myPid());    	
-    }
+    public void surfaceDestroyed(SurfaceHolder holder) {}
     // End SurfaceHolder.Callback
 
     // Implement MediaPlayer.OnPreparedListener
@@ -136,9 +144,30 @@ public class VideoPlayerActivity extends Activity implements SurfaceHolder.Callb
     public void onPrepared(MediaPlayer mp) {
        controller.setMediaPlayer(this);
        controller.setAnchorView((FrameLayout) findViewById(R.id.videoSurfaceContainer));
-       loading.setVisibility(View.INVISIBLE);
+       loading.setVisibility(View.GONE);
        player.start();
+       //controller.updatePausePlay();
     }
+    
+	@Override
+	public boolean onInfo(MediaPlayer mp, int what, int extra) {
+
+		switch (what) {  
+        case MediaPlayer.MEDIA_INFO_BUFFERING_START:          	
+        	player.pause();
+        	waitinging.setVisibility(View.VISIBLE);  
+            break;  
+        case MediaPlayer.MEDIA_INFO_BUFFERING_END:       	
+        	new Handler().postDelayed(new Runnable(){    
+        		public void run() {    
+        			player.start();
+        			waitinging.setVisibility(View.GONE);
+        		}    
+        	 }, 3000);     	
+            break;  
+        }  
+        return false;  
+	}    
     
     @Override
 	public void onCompletion(MediaPlayer mp) {	
@@ -160,13 +189,37 @@ public class VideoPlayerActivity extends Activity implements SurfaceHolder.Callb
 		controller.onBufferingUpdate(percent);
 		//Toast.makeText(getApplication(), getBufferPercentage()+">>", Toast.LENGTH_SHORT).show();
 	}
+	
+	@Override
+    protected void onDestroy() {
+        super.onDestroy();        
+        yes = true;
+        //Log.i("..............", "onDestory()............");
+        return ;
+    }
+	
+	 @Override
+	 protected void onStop() {
+	    super.onStop();
+	    yes = true;
+	   // Log.i("................", "onStop()............");
+	    return ; 
+	 }
+	
 
 	@Override
 	public boolean onError(MediaPlayer mp, int what, int extra) {
 		
+		LOG.e(".............................", "("+what+","+extra+")");
+		LOG.i(".............................", "("+what+","+extra+")");
+		if(yes!=true){
+			Toast.makeText(getBaseContext(), "ËøûÁ∫ø‰∏≠Êñ≠ÔºåËØ∑ÈáçÊñ∞ÁÇπÈÄâËØæÁ®ã„ÄÇ", Toast.LENGTH_LONG).show();
+		}
+		finish();
 		return false;
+		
 	}
-
+	
     @Override
     public boolean canPause() {
         return true;
@@ -226,8 +279,7 @@ public class VideoPlayerActivity extends Activity implements SurfaceHolder.Callb
     @Override
     public void toggleFullScreen() {}
 
-	
-	 public boolean isNetworkConnected(Context context) {   
+	public boolean isNetworkConnected(Context context) {   
 			if (context != null) {   
 			 ConnectivityManager mConnectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);   
 			 NetworkInfo mNetworkInfo = mConnectivityManager.getActiveNetworkInfo();   
@@ -236,12 +288,6 @@ public class VideoPlayerActivity extends Activity implements SurfaceHolder.Callb
 				 }   
 			}   
 			 return false;   
-	} 
-
-
-	@Override
-	public void onVideoSizeChanged(MediaPlayer mp, int width, int height) {
-		//Toast.makeText(getApplication(), player.getVideoWidth(), Toast.LENGTH_LONG).show();    
 	}
 
 }
