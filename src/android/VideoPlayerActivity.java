@@ -55,7 +55,7 @@ public class VideoPlayerActivity extends Activity implements SurfaceHolder.Callb
     	
 		if(isNetworkConnected(this) == false){
 			this.finish();
-			Toast.makeText(getBaseContext(), "網路中斷，請檢查網路連線。", Toast.LENGTH_LONG).show();		
+			Toast.makeText(getBaseContext(), "网路中断，请检查网路连线。", Toast.LENGTH_LONG).show();		
 			return;
 		}
 
