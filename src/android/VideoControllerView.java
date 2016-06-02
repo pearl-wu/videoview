@@ -6,7 +6,6 @@ import android.graphics.Rect;
 import android.graphics.Region;
 import android.graphics.Region.Op;
 import android.graphics.RegionIterator;
-import android.media.MediaPlayer;
 import android.os.Handler;
 import android.os.Message;
 import android.util.AttributeSet;
@@ -23,14 +22,10 @@ import android.widget.ProgressBar;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import java.lang.ref.WeakReference;
 import java.util.Formatter;
 import java.util.Locale;
-
 import tw.com.bais.demoview.R;
-
 
 public class VideoControllerView extends FrameLayout {
 	
@@ -127,9 +122,7 @@ public void setAnchorView(ViewGroup view) {
 protected View makeControllerView() {
     LayoutInflater inflate = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     mRoot = inflate.inflate(R.layout.media_controller, null);
-
     initControllerView(mRoot);
-
     return mRoot;
 }
 
@@ -182,15 +175,23 @@ public void initControllerView(View v) {
         mProgress.setMax(1000);
     }
     
+    
+    /*mProgress.getViewTreeObserver().addOnPreDrawListener(
+    	new ViewTreeObserver.OnPreDrawListener() {
+	    	 public boolean onPreDraw() {
+	    		 bufferwidth = mProgress.getMeasuredWidth();
+	    		 return true;
+	    	 }
+    	});*/    
+    
     mEndTime = (TextView) v.findViewById(R.id.time);
     mCurrentTime = (TextView) v.findViewById(R.id.time_current);
     mFormatBuilder = new StringBuilder();
     mFormatter = new Formatter(mFormatBuilder, Locale.getDefault());
 
     installPrevNextListeners();
+    //show(sDefaultTimeout);
 }
-
-
 
 
 /**
@@ -199,6 +200,10 @@ public void initControllerView(View v) {
  */
 public void show() {
     show(sDefaultTimeout);
+}
+
+public void startplayer(){
+	 mPrevButton.setEnabled(false);
 }
 
 /**
@@ -393,7 +398,7 @@ public boolean dispatchKeyEvent(KeyEvent event) {
         }
         return true;
     }
-	bufferwidth = mProgress.getWidth();
+
     show(sDefaultTimeout);
     return super.dispatchKeyEvent(event);
 }
@@ -624,7 +629,6 @@ private void drawCachProgress(Canvas canvas,int progressBarWidth,int pTop,int pB
     }  
 
 
-
 public interface MediaPlayerControl {
     void    start();
     void    pause();
@@ -666,13 +670,13 @@ private static class MessageHandler extends Handler {
                     sendMessageDelayed(msg, 1000 - (pos % 1000));
                 }
                 break;
-            case SHOW_BUFFER:
-            	//int ii = (view.buffernull/(1/10))*1000;
-            	//view.mProgress.setSecondaryProgress(ii);
-                //Log.i("progressssssss", view.buffernull+">>>>>>>");
-                 
+            case SHOW_BUFFER:          	
+            	double v1 = view.buffernull;
+            	double v2 = 0.1;
+            	int ii = (int)((v1*v2)*100);
+            	view.mProgress.setSecondaryProgress(ii);
+	    		// Log.i("width.......", ii+">>>>>>>"); 
         }
-
     }
    
 }
