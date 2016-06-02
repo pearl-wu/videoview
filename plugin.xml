@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    id="com.bais.cordova.video"
+    id="com.bais.cordova.videoview1"
     version="1.0">
 
     <name>Video Player</name>
@@ -52,7 +52,7 @@
 	<source-file src="res/drawable/str.png" target-dir="res/drawable/" />
 	<source-file src="res/drawable/waiting.png" target-dir="res/drawable/" />
 	<source-file src="res/drawable/loading_stro.png" target-dir="res/drawable/" />
-	<source-file src="res/drawable/waiting.png" target-dir="res/drawable/" />
+	<source-file src="res/drawable/" target-dir="res/drawable/" />
 	<source-file src="res/drawable/seekbar_horizontal.xml" target-dir="res/drawable/" />
 	<source-file src="res/drawable-hdpi/duck_bar.png" target-dir="res/drawable-hdpi" />
 	<source-file src="res/drawable-hdpi/ducky_bar.png" target-dir="res/drawable-hdpi" />
