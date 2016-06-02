@@ -42,43 +42,7 @@
         <source-file src="src/android/VideoControllerView.java" target-dir="src/com/bais/cordova/video/" />
         <source-file src="src/android/VideoPlayerActivity.java" target-dir="src/com/bais/cordova/video/" />
         
-	<source-file src="res/drawable/loading.png" target-dir="res/drawable/" />
-	<source-file src="res/drawable/image_box.png" target-dir="res/drawable/" />
-	<source-file src="res/drawable/image_over.png" target-dir="res/drawable/" />
-	<source-file src="res/drawable/image_play.png" target-dir="res/drawable/" />
-	<source-file src="res/drawable/sb_bar.xml" target-dir="res/drawable/" />
-	<source-file src="res/drawable/animationset.xml" target-dir="res/drawable/" />
-	<source-file src="res/drawable/wait_anima.xml" target-dir="res/drawable/">
-	<source-file src="res/drawable/waiting.png" target-dir="res/drawable/" />
-	<source-file src="res/drawable/loading_stro.png" target-dir="res/drawable/" />
-	<source-file src="res/drawable/seekbar_horizontal.xml" target-dir="res/drawable/" />
-	<source-file src="res/drawable-hdpi/duck_bar.png" target-dir="res/drawable-hdpi" />
-	<source-file src="res/drawable-hdpi/ducky_bar.png" target-dir="res/drawable-hdpi" />
-	<source-file src="res/drawable-hdpi/ffwd.png" target-dir="res/drawable-hdpi" />
-	<source-file src="res/drawable-hdpi/next.png" target-dir="res/drawable-hdpi" />
-	<source-file src="res/drawable-hdpi/pause.png" target-dir="res/drawable-hdpi" />
-	<source-file src="res/drawable-hdpi/play.png" target-dir="res/drawable-hdpi" />
-	<source-file src="res/drawable-hdpi/prev.png" target-dir="res/drawable-hdpi" />
-	<source-file src="res/drawable-hdpi/rew.png" target-dir="res/drawable-hdpi" />
-	<source-file src="res/drawable-ldpi/duck_bar.png" target-dir="res/drawable-ldpi" />
-	<source-file src="res/drawable-ldpi/ducky_bar.png" target-dir="res/drawable-ldpi" />
-	<source-file src="res/drawable-ldpi/ffwd.png" target-dir="res/drawable-ldpi" />
-	<source-file src="res/drawable-ldpi/next.png" target-dir="res/drawable-ldpi" />
-	<source-file src="res/drawable-ldpi/pause.png" target-dir="res/drawable-ldpi" />
-	<source-file src="res/drawable-ldpi/play.png" target-dir="res/drawable-ldpi" />
-	<source-file src="res/drawable-ldpi/prev.png" target-dir="res/drawable-ldpi" />
-	<source-file src="res/drawable-ldpi/rew.png" target-dir="res/drawable-ldpi" />
-	<source-file src="res/drawable-mdpi/duck_bar.png" target-dir="res/drawable-mdpi" />
-	<source-file src="res/drawable-mdpi/ducky_bar.png" target-dir="res/drawable-mdpi" />
-	<source-file src="res/drawable-mdpi/ffwd.png" target-dir="res/drawable-mdpi" />
-	<source-file src="res/drawable-mdpi/next.png" target-dir="res/drawable-mdpi" />
-	<source-file src="res/drawable-mdpi/pause.png" target-dir="res/drawable-mdpi" />
-	<source-file src="res/drawable-mdpi/play.png" target-dir="res/drawable-mdpi" />
-	<source-file src="res/drawable-mdpi/prev.png" target-dir="res/drawable-mdpi" />
-	<source-file src="res/drawable-mdpi/rew.png" target-dir="res/drawable-mdpi" />	
-	<source-file src="res/layout/activity_video_player.xml" target-dir="res/layout/" />
-	<source-file src="res/layout/media_controller.xml" target-dir="res/layout/" />
-	<source-file src="res/values/styles.xml" target-dir="res/values/" />
+	
     </platform>
 
 </plugin>
