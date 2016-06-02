@@ -2,9 +2,7 @@ package com.bais.cordova.video;
 
 import java.io.IOException;
 import java.util.ArrayList;
-
 import org.apache.cordova.LOG;
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.pm.ActivityInfo;
@@ -19,6 +17,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -41,11 +40,9 @@ public class VideoPlayerActivity extends Activity implements SurfaceHolder.Callb
 	 private SurfaceHolder videoHolder;
 	 private MediaPlayer player;
 	 private VideoControllerView controller;
-	 private FrameLayout loading;
+	 private ImageView loading;
 	 private FrameLayout waitinging;
-	 private ImageView loadstr;
 	 private ImageView waiting;
-	 private Animation am_w;
 	 private boolean yes;
 	
     @Override
@@ -77,14 +74,11 @@ public class VideoPlayerActivity extends Activity implements SurfaceHolder.Callb
         videoSurface = (SurfaceView) findViewById(R.id.videoSurface);
         videoSurface.setScrollBarSize(100);
 
-        loading = (FrameLayout) findViewById(R.id.loadinging);
-        loadstr = (ImageView) findViewById(R.id.imageView_b);        
-        Animation am = AnimationUtils.loadAnimation(this, R.drawable.animationset);
-        loadstr.startAnimation(am);
+        loading = (ImageView) findViewById(R.id.loading);
         
         waitinging = (FrameLayout) findViewById(R.id.waitinging);
         waiting = (ImageView) findViewById(R.id.imageView_w);
-        am_w = AnimationUtils.loadAnimation(this, R.drawable.wait_anima);
+        Animation am_w = AnimationUtils.loadAnimation(this, R.drawable.wait_anima);
         waiting.startAnimation(am_w);
         waitinging.setVisibility(View.GONE);
 
@@ -168,7 +162,7 @@ public class VideoPlayerActivity extends Activity implements SurfaceHolder.Callb
         return false;  
 	}    
     
-   @Override
+    @Override
 	public void onCompletion(MediaPlayer mp) {	
    		player.reset();
    		loading.setVisibility(View.VISIBLE);		
