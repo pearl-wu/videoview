@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        android:background="#e0333333"
+        android:background="#c0333333"
         android:orientation="horizontal" >
 
         <ImageButton
