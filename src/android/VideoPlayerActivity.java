@@ -169,7 +169,7 @@ public class VideoPlayerActivity extends Activity implements SurfaceHolder.Callb
         return false;  
 	}    
     
-    @Override
+   @Override
 	public void onCompletion(MediaPlayer mp) {	
    		player.reset();
    		loading.setVisibility(View.VISIBLE);		
@@ -179,6 +179,7 @@ public class VideoPlayerActivity extends Activity implements SurfaceHolder.Callb
 				if(totle == mediaurls.size()){
 	   				totle = 0;
 	   			}
+				//Log.i("................onCompletion", totle+">>>>");				
    			return;
 		}
 		finish();	 
