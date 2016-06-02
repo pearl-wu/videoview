@@ -30,7 +30,6 @@ import android.view.animation.AnimationUtils;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.Toast;
-import tw.com.bais.demoview.R;
 
 public class VideoPlayerActivity extends Activity implements SurfaceHolder.Callback, MediaPlayer.OnPreparedListener, VideoControllerView.MediaPlayerControl, OnInfoListener, OnErrorListener, OnCompletionListener, OnBufferingUpdateListener {
     
