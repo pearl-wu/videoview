@@ -2,7 +2,6 @@ package com.bais.cordova.video;
 
 
 //import cn.com.ebais.kyytvali.R;
-import tw.bais.com.myview.R;
 import java.util.ArrayList;
 import android.annotation.SuppressLint;
 import android.app.Activity;
