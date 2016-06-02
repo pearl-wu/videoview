@@ -1,18 +1,6 @@
 var exec = require("cordova/exec");
 
 module.exports = {
-
-    _OPTIONS: {
-        widthV: 1028,
-        heightV: 760,
-        topV: 0,
-        leftV: 0
-    },
-    
-    frame_play: function (options, successCallback, errorCallback) {
-      options = this.merge(this._OPTIONS, options);  
-        exec(successCallback, errorCallback, "VideoPlayer", "frame_play", [options]);
-    },
     
     many_play: function (paths, number, successCallback, errorCallback) {
         exec(successCallback, errorCallback, "VideoPlayer", "many_play", [paths, number]);
@@ -20,14 +8,6 @@ module.exports = {
     
     custom_play: function (paths, number, successCallback, errorCallback) {
         exec(successCallback, errorCallback, "VideoPlayer", "custom_play", [paths, number]);
-    },
-    
-    play: function (path, successCallback, errorCallback) {
-        exec(successCallback, errorCallback, "VideoPlayer", "play", [path]);
-    },
-
-    stop: function (successCallback, errorCallback) {
-        exec(successCallback, errorCallback, "VideoPlayer", "stop", []);
     },
 
     merge: function () {
