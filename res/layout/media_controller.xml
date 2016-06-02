@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        android:background="#ffffff"
+        android:background="#e0333333"
         android:orientation="horizontal" >
 
         <ImageButton
@@ -51,17 +51,19 @@
             android:paddingRight="4dip"
             android:paddingTop="4dip"
             android:text="00:00"
-            android:textColor="#000"
+            android:textColor="#fff"
             android:textSize="12sp"
             android:textStyle="bold" />
 
         <SeekBar
             android:id="@+id/mediacontroller_seekbar"
             style="?android:attr/progressBarStyleHorizontal"
+            android:thumb="@drawable/seekbar_horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_weight="1.87" />
+            android:layout_weight="1.87"
+            android:progress="0" />
 
         <TextView
             android:id="@+id/time"
@@ -72,7 +74,7 @@
             android:paddingRight="4dip"
             android:paddingTop="4dip"
             android:text="00:00"
-            android:textColor="#000"
+            android:textColor="#fff"
             android:textSize="12sp"
             android:textStyle="bold" />
     </LinearLayout>
