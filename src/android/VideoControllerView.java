@@ -25,7 +25,6 @@ import android.widget.TextView;
 import java.lang.ref.WeakReference;
 import java.util.Formatter;
 import java.util.Locale;
-import tw.com.bais.demoview.R;
 
 public class VideoControllerView extends FrameLayout {
 	
