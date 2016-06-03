@@ -1,5 +1,6 @@
 package com.bais.cordova.video;
 
+import cn.com.ebais.kyytvali.R;　
 import java.io.IOException;
 import java.util.ArrayList;
 import org.apache.cordova.LOG;
