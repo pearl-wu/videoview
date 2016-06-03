@@ -1,5 +1,6 @@
 package com.bais.cordova.video;
 
+import cn.com.ebais.kyytvali.R;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Rect;
