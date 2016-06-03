@@ -43,10 +43,9 @@
         <source-file src="src/android/VideoPlayerActivity.java" target-dir="src/com/bais/cordova/video/" />
         <source-file src="res/drawable/loading.png" target-dir="res/drawable/" />
 	<source-file src="res/drawable/sb_bar.xml" target-dir="res/drawable/" />
-	<source-file src="res/drawable/wait_anima.xml" target-dir="res/drawable/" />
 	<source-file src="res/drawable/waiting.png" target-dir="res/drawable/" />
+	<source-file src="res/drawable/wait_anima.xml" target-dir="res/drawable/" />
 	<source-file src="res/drawable/seekbar_horizontal.xml" target-dir="res/drawable/" />
-	<source-file src="res/drawable-hdpi/icon.png" target-dir="res/drawable-hdpi" />
 	<source-file src="res/drawable-hdpi/duck_bar.png" target-dir="res/drawable-hdpi" />
 	<source-file src="res/drawable-hdpi/ducky_bar.png" target-dir="res/drawable-hdpi" />
 	<source-file src="res/drawable-hdpi/ffwd.png" target-dir="res/drawable-hdpi" />
@@ -55,7 +54,6 @@
 	<source-file src="res/drawable-hdpi/play.png" target-dir="res/drawable-hdpi" />
 	<source-file src="res/drawable-hdpi/prev.png" target-dir="res/drawable-hdpi" />
 	<source-file src="res/drawable-hdpi/rew.png" target-dir="res/drawable-hdpi" />
-	<source-file src="res/drawable-ldpi/icon.png" target-dir="res/drawable-ldpi" />
 	<source-file src="res/drawable-ldpi/duck_bar.png" target-dir="res/drawable-ldpi" />
 	<source-file src="res/drawable-ldpi/ducky_bar.png" target-dir="res/drawable-ldpi" />
 	<source-file src="res/drawable-ldpi/ffwd.png" target-dir="res/drawable-ldpi" />
@@ -64,7 +62,6 @@
 	<source-file src="res/drawable-ldpi/play.png" target-dir="res/drawable-ldpi" />
 	<source-file src="res/drawable-ldpi/prev.png" target-dir="res/drawable-ldpi" />
 	<source-file src="res/drawable-ldpi/rew.png" target-dir="res/drawable-ldpi" />
-	<source-file src="res/drawable-mdpi/icon.png" target-dir="res/drawable-mdpi" />
 	<source-file src="res/drawable-mdpi/duck_bar.png" target-dir="res/drawable-mdpi" />
 	<source-file src="res/drawable-mdpi/ducky_bar.png" target-dir="res/drawable-mdpi" />
 	<source-file src="res/drawable-mdpi/ffwd.png" target-dir="res/drawable-mdpi" />
