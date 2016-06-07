@@ -166,7 +166,7 @@ public class VideoPlayerActivity extends Activity implements SurfaceHolder.Callb
 			player.reset();
 			playering(totle-1);
 			player.start();	
-			Toast.makeText(getApplication(), "onInfo onInfo >>", Toast.LENGTH_SHORT).show();
+			//Toast.makeText(getApplication(), "onInfo onInfo >>", Toast.LENGTH_SHORT).show();
 		}
 		
 		
