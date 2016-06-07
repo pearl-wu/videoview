@@ -3,7 +3,6 @@ package com.bais.cordova.video;
 import cn.com.ebais.kyytvali.R;
 import java.io.IOException;
 import java.util.ArrayList;
-import org.apache.cordova.LOG;
 import android.app.Activity;
 import android.content.Context;
 import android.content.pm.ActivityInfo;
@@ -18,15 +17,13 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
+import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -42,9 +39,12 @@ public class VideoPlayerActivity extends Activity implements SurfaceHolder.Callb
 	 private MediaPlayer player;
 	 private VideoControllerView controller;
 	 private ImageView loading;
-	 private FrameLayout waitinging;
-	 private ImageView waiting;
+	 //private FrameLayout waitinging;
+	 //private ImageView waiting;
 	 private boolean yes;
+	 private int iscreate = 0;
+	 private int gposition = 0;
+	 private boolean err = true;
 	
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,7 +52,7 @@ public class VideoPlayerActivity extends Activity implements SurfaceHolder.Callb
     	
 		if(isNetworkConnected(this) == false){
 			this.finish();
-			Toast.makeText(getBaseContext(), "网路中断，请检查网路连线。", Toast.LENGTH_LONG).show();		
+			Toast.makeText(getBaseContext(), "网路中断，请检查网路连线。", Toast.LENGTH_SHORT).show();		
 			return;
 		}
 
@@ -73,41 +73,33 @@ public class VideoPlayerActivity extends Activity implements SurfaceHolder.Callb
         mediaurls = extras.getStringArrayList("mediaUrl");  
         setContentView(R.layout.activity_video_player);
         videoSurface = (SurfaceView) findViewById(R.id.videoSurface);
-        videoSurface.setScrollBarSize(100);
 
         loading = (ImageView) findViewById(R.id.loading);
-        
-        waitinging = (FrameLayout) findViewById(R.id.waitinging);
+        /*waitinging = (FrameLayout) findViewById(R.id.waitinging);
         waiting = (ImageView) findViewById(R.id.imageView_w);
         Animation am_w = AnimationUtils.loadAnimation(this, R.drawable.wait_anima);
         waiting.startAnimation(am_w);
-        waitinging.setVisibility(View.GONE);
-
-		//RelativeLayout.LayoutParams loadingLayoutParam = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.FILL_PARENT);
-		//loadingLayoutParam.addRule(RelativeLayout.ALIGN_PARENT_TOP);
-		//loading.setLayoutParams(loadingLayoutParam);
-		//this.addContentView(loading, loadingLayoutParam);
+        waitinging.setVisibility(View.GONE);*/
         
         videoHolder = videoSurface.getHolder();
         videoHolder.addCallback(this);
         controller = new VideoControllerView(this);
         player = new MediaPlayer();
+        player.setAudioStreamType(AudioManager.STREAM_MUSIC);
     	player.setOnCompletionListener(this);
     	player.setOnPreparedListener(this);
     	player.setOnBufferingUpdateListener(this);
     	player.setOnErrorListener(this);
     	player.setOnInfoListener(this);
-   		playering();
+   		playering(totle);
+   		iscreate = 1;
+   		totle++;
     }    
 
-    public void playering(){
+    public void playering(int mm){
     	try {
-    		player.setAudioStreamType(AudioManager.STREAM_MUSIC);
-    		player.setDataSource(mediaurls.get(totle));
-    		player.prepareAsync();
-    			//Toast.makeText(getApplication(), getResources().getDisplayMetrics().widthPixels, Toast.LENGTH_LONG).show();
-        	if(number == 2) totle++;
-        		//Toast.makeText(getApplication(), totle+">>"+mediaurls.size(), Toast.LENGTH_LONG).show();
+    		player.setDataSource(mediaurls.get(mm));
+    		player.prepare();
         } catch (IOException e) {
             e.printStackTrace();
         } 
@@ -133,47 +125,85 @@ public class VideoPlayerActivity extends Activity implements SurfaceHolder.Callb
     public void surfaceDestroyed(SurfaceHolder holder) {}
     // End SurfaceHolder.Callback
 
+    
     // Implement MediaPlayer.OnPreparedListener
     @Override
     public void onPrepared(MediaPlayer mp) {
+       	
        controller.setMediaPlayer(this);
        controller.setAnchorView((FrameLayout) findViewById(R.id.videoSurfaceContainer));
-       loading.setVisibility(View.GONE);
-       player.start();
-       //controller.updatePausePlay();
+       
+       if(err == false){
+			player.seekTo(gposition);
+	    	loading.setVisibility(View.GONE);
+    	   return ;
+       }   
+       
+       //**初始/連播**//
+       if(iscreate == 1){
+			new Handler().postDelayed(new Runnable(){    
+			    public void run() {
+			        player.start();
+			        iscreate = 0;
+			        loading.setVisibility(View.GONE);
+			    }    
+			}, 30000);
+       }else if(iscreate == 0){
+	        player.start();	 
+	        loading.setVisibility(View.GONE);
+       }
+
     }
     
 	@Override
 	public boolean onInfo(MediaPlayer mp, int what, int extra) {
-
-		switch (what) {  
+		if(player.getCurrentPosition()>0){
+	    	gposition = player.getCurrentPosition();
+	    	controller.updatePausePlay();
+		}
+		
+		if(player.getCurrentPosition()==0){
+			player.reset();
+			playering(totle-1);
+			player.start();	
+			Toast.makeText(getApplication(), "onInfo onInfo >>", Toast.LENGTH_SHORT).show();
+		}
+		
+		
+		
+		/*switch (what) {  
         case MediaPlayer.MEDIA_INFO_BUFFERING_START:          	
         	player.pause();
-        	waitinging.setVisibility(View.VISIBLE);  
+        	//waitinging.setVisibility(View.VISIBLE);  
             break;  
         case MediaPlayer.MEDIA_INFO_BUFFERING_END:       	
         	new Handler().postDelayed(new Runnable(){    
         		public void run() {    
         			player.start();
-        			waitinging.setVisibility(View.GONE);
+        			//waitinging.setVisibility(View.GONE);
         		}    
         	 }, 3000);     	
             break;  
-        }  
+        }  */
         return false;  
 	}    
     
     @Override
 	public void onCompletion(MediaPlayer mp) {	
-   		player.reset();
-   		loading.setVisibility(View.VISIBLE);		
+   		loading.setVisibility(View.VISIBLE);   	
+        if(err == false){
+     	   return ;
+        }         
+        player.reset();
 		if(number==2)
 		{
-			playering();
+			//Log.i("................onCompletion", totle+">>>>");	
+			playering(totle);
+			totle++;
 				if(totle == mediaurls.size()){
 	   				totle = 0;
 	   			}
-				//Log.i("................onCompletion", totle+">>>>");				
+			
    			return;
 		}
 		finish();	 
@@ -189,6 +219,7 @@ public class VideoPlayerActivity extends Activity implements SurfaceHolder.Callb
     protected void onDestroy() {
         super.onDestroy();        
         yes = true;
+        finish();
         //Log.i("..............", "onDestory()............");
         return ;
     }
@@ -197,22 +228,45 @@ public class VideoPlayerActivity extends Activity implements SurfaceHolder.Callb
 	 protected void onStop() {
 	    super.onStop();
 	    yes = true;
+	    finish();
 	   // Log.i("................", "onStop()............");
 	    return ; 
 	 }
+
 	
 
 	@Override
-	public boolean onError(MediaPlayer mp, int what, int extra) {
-		
-		LOG.e(".............................", "("+what+","+extra+")");
-		LOG.i(".............................", "("+what+","+extra+")");
+	public boolean onError(final MediaPlayer mp, final int what, final int extra){
+		//LOG.e(".............................", "("+what+","+extra+")");
+		//LOG.i(".............................", "("+what+","+extra+")");
+		//Toast.makeText(getBaseContext(), "onError "+"("+what+","+extra+")", Toast.LENGTH_SHORT).show(); 
+		err = false;
 		if(yes!=true){
-			Toast.makeText(getBaseContext(), "连线中断，请重新点选课程。", Toast.LENGTH_LONG).show();
-		}
-		finish();
-		return false;
-		
+			player.reset();
+			playering(totle-1);
+			player.start();	
+			
+				new Handler().postDelayed(new Runnable(){    
+				    public void run() {
+				    	if(player.getCurrentPosition()>0){
+				    		err = true;
+				    		return ;
+				    	}				    	
+						Toast.makeText(getBaseContext(), "连线中断，请重新点选课程。", Toast.LENGTH_SHORT).show();
+						finish();
+				    }    
+				}, 20000);	
+		}				
+		return false;		
+	}
+	
+    public boolean dispatchKeyEvent (KeyEvent event) {
+    	
+    	if( event.getKeyCode() == KeyEvent.KEYCODE_ESCAPE || event.getKeyCode() == 4){
+        	finish();
+        	return false;
+        }
+		return controller.dispatchKeyEvent(event);
 	}
 	
     @Override
@@ -272,8 +326,9 @@ public class VideoPlayerActivity extends Activity implements SurfaceHolder.Callb
     }
 
     @Override
-    public void toggleFullScreen() {}
-
+    public void toggleFullScreen() {}    
+         
+    
 	public boolean isNetworkConnected(Context context) {   
 			if (context != null) {   
 			 ConnectivityManager mConnectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);   
@@ -284,5 +339,4 @@ public class VideoPlayerActivity extends Activity implements SurfaceHolder.Callb
 			}   
 			 return false;   
 	}
-
 }
