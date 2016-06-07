@@ -23,6 +23,7 @@ import android.widget.ProgressBar;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
+
 import java.lang.ref.WeakReference;
 import java.util.Formatter;
 import java.util.Locale;
@@ -357,48 +358,24 @@ public boolean dispatchKeyEvent(KeyEvent event) {
     if (mPlayer == null) {
         return true;
     }
-
-    int keyCode = event.getKeyCode();
-    final boolean uniqueDown = event.getRepeatCount() == 0
-            && event.getAction() == KeyEvent.ACTION_DOWN;
-    if (keyCode ==  KeyEvent.KEYCODE_HEADSETHOOK
-            || keyCode == KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE
-            || keyCode == KeyEvent.KEYCODE_SPACE) {
-        if (uniqueDown) {
-            doPauseResume();
-            show(sDefaultTimeout);
-            if (mPauseButton != null) {
-                mPauseButton.requestFocus();
-            }
+    int keyCode = event.getKeyCode();    
+    if(keyCode == KeyEvent.KEYCODE_DPAD_RIGHT){   	
+    	if (mPlayer == null) {
+            return false;
+        }  	
+    	int pos = mPlayer.getCurrentPosition();
+        pos += 5000; // milliseconds
+        mPlayer.seekTo(pos);
+        setProgress();    	
+    }else if(keyCode == KeyEvent.KEYCODE_DPAD_LEFT){    	
+    	if (mPlayer == null) {
+            return false;
         }
-        return true;
-    } else if (keyCode == KeyEvent.KEYCODE_MEDIA_PLAY) {
-        if (uniqueDown && !mPlayer.isPlaying()) {
-            mPlayer.start();
-            updatePausePlay();
-            show(sDefaultTimeout);
-        }
-        return true;
-    } else if (keyCode == KeyEvent.KEYCODE_MEDIA_STOP
-            || keyCode == KeyEvent.KEYCODE_MEDIA_PAUSE) {
-        if (uniqueDown && mPlayer.isPlaying()) {
-            mPlayer.pause();
-            updatePausePlay();
-            show(sDefaultTimeout);
-        }
-        return true;
-    } else if (keyCode == KeyEvent.KEYCODE_VOLUME_DOWN
-            || keyCode == KeyEvent.KEYCODE_VOLUME_UP
-            || keyCode == KeyEvent.KEYCODE_VOLUME_MUTE) {
-        // don't show the controls for volume adjustment
-        return super.dispatchKeyEvent(event);
-    } else if (keyCode == KeyEvent.KEYCODE_BACK || keyCode == KeyEvent.KEYCODE_MENU) {
-        if (uniqueDown) {
-            hide();
-        }
-        return true;
+        int pos = mPlayer.getCurrentPosition();
+        pos -= 5000; // milliseconds
+        mPlayer.seekTo(pos);
+        setProgress();
     }
-
     show(sDefaultTimeout);
     return super.dispatchKeyEvent(event);
 }
@@ -567,7 +544,7 @@ private OnClickListener mFfwdListener = new OnClickListener() {
         }
 
         int pos = mPlayer.getCurrentPosition();
-        pos += 15000; // milliseconds
+        pos += 5000; // milliseconds
         mPlayer.seekTo(pos);
         setProgress();
 
