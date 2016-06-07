@@ -42,8 +42,6 @@
         <source-file src="src/android/VideoControllerView.java" target-dir="src/com/bais/cordova/video/" />
         <source-file src="src/android/VideoPlayerActivity.java" target-dir="src/com/bais/cordova/video/" />
         <source-file src="res/drawable/loading.png" target-dir="res/drawable/" />
-	<source-file src="res/drawable/waiting.png" target-dir="res/drawable/" />
-	<source-file src="res/drawable/wait_anima.xml" target-dir="res/drawable/" />
 	<source-file src="res/drawable/sb_bar.xml" target-dir="res/drawable/" />
 	<source-file src="res/drawable/seekbar_horizontal.xml" target-dir="res/drawable/" />
 	
