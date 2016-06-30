@@ -1,7 +1,9 @@
 package com.bais.cordova.video;
 
-import cn.com.ebais.kyytvali.R;
+
 import java.util.ArrayList;
+
+import tw.com.bais.demoview.R;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
@@ -43,7 +45,7 @@ public class videocontroller extends Activity{
 		
 		if(isNetworkConnected(this) == false){
 			this.finish();
-			Toast.makeText(getBaseContext(), "连线中断，请检查网路。", Toast.LENGTH_LONG).show();		
+			Toast.makeText(getBaseContext(), "网路中断，请检查网路连线。", Toast.LENGTH_LONG).show();		
 			return;
 		}
 		

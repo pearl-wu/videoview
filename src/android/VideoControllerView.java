@@ -1,6 +1,5 @@
 package com.bais.cordova.video;
 
-import cn.com.ebais.kyytvali.R;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Rect;
@@ -23,10 +22,13 @@ import android.widget.ProgressBar;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.lang.ref.WeakReference;
 import java.util.Formatter;
 import java.util.Locale;
+
+import tw.com.bais.demoview.R;
 
 public class VideoControllerView extends FrameLayout {
 	
@@ -40,7 +42,7 @@ private ProgressBar         mProgress;
 private TextView            mEndTime, mCurrentTime;
 private boolean             mShowing;
 private boolean             mDragging;
-private static final int    sDefaultTimeout = 3000;
+private static final int    sDefaultTimeout = 5000;
 private static final int    FADE_OUT = 1;
 private static final int    SHOW_PROGRESS = 2;
 private static final int    SHOW_BUFFER = 0;
@@ -57,7 +59,6 @@ private ImageButton         mFfwdButton;
 private ImageButton         mRewButton;
 private ImageButton         mNextButton;
 private ImageButton         mPrevButton;
-private ImageButton         mFullscreenButton;
 private Handler             mHandler = new MessageHandler(this);
 
 public VideoControllerView(Context context, AttributeSet attrs) {
@@ -96,11 +97,6 @@ public void setMediaPlayer(MediaPlayerControl player) {
     //updateFullScreen();
 }
 
-/**
- * Set the view that acts as the anchor for the control view.
- * This can for example be a VideoView, or your Activity's main view.
- * @param view The view to which to anchor the controller when it is visible.
- */
 public void setAnchorView(ViewGroup view) {
     mAnchor = view;
 
@@ -114,12 +110,6 @@ public void setAnchorView(ViewGroup view) {
     addView(v, frameParams);
 }
 
-/**
- * Create the view that holds the widgets that control playback.
- * Derived classes can override this to create their own.
- * @return The controller view.
- * @hide This doesn't work as advertised
- */
 protected View makeControllerView() {
     LayoutInflater inflate = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     mRoot = inflate.inflate(R.layout.media_controller, null);
@@ -176,7 +166,6 @@ public void initControllerView(View v) {
         mProgress.setMax(1000);
     }
     
-    
     /*mProgress.getViewTreeObserver().addOnPreDrawListener(
     	new ViewTreeObserver.OnPreDrawListener() {
 	    	 public boolean onPreDraw() {
@@ -195,22 +184,12 @@ public void initControllerView(View v) {
 }
 
 
-/**
- * Show the controller on screen. It will go away
- * automatically after 3 seconds of inactivity.
- */
+
 public void show() {
     show(sDefaultTimeout);
 }
 
-public void startplayer(){
-	 mPrevButton.setEnabled(false);
-}
 
-/**
- * Disable pause or seek buttons if the stream cannot be paused or seeked.
- * This requires the control interface to be a MediaPlayerControlExt
- */
 private void disableUnsupportedButtons() {
     if (mPlayer == null) {
         return;
@@ -226,20 +205,9 @@ private void disableUnsupportedButtons() {
         if (mFfwdButton != null && !mPlayer.canSeekForward()) {
             mFfwdButton.setEnabled(false);
         }
-    } catch (IncompatibleClassChangeError ex) {
-        // We were given an old version of the interface, that doesn't have
-        // the canPause/canSeekXYZ methods. This is OK, it just means we
-        // assume the media can be paused and seeked, and so we don't disable
-        // the buttons.
-    }
+    } catch (IncompatibleClassChangeError ex) {}
 }
 
-/**
- * Show the controller on screen. It will go away
- * automatically after 'timeout' milliseconds of inactivity.
- * @param timeout The timeout in milliseconds. Use 0 to show
- * the controller until hide() is called.
- */
 public void show(int timeout) {
     if (!mShowing && mAnchor != null) {
         setProgress();
@@ -258,13 +226,8 @@ public void show(int timeout) {
         mShowing = true;
     }
     updatePausePlay();
-    //updateFullScreen();
 
-    // cause the progress bar to be updated even if mShowing
-    // was already true.  This happens, for example, if we're
-    // paused with the progress bar showing the user hits play.
     mHandler.sendEmptyMessage(SHOW_PROGRESS);
-
     Message msg = mHandler.obtainMessage(FADE_OUT);
     if (timeout != 0) {
         mHandler.removeMessages(FADE_OUT);
@@ -276,9 +239,6 @@ public boolean isShowing() {
     return mShowing;
 }
 
-/**
- * Remove the controller from the screen.
- */
 public void hide() {
     if (mAnchor == null) {
         return;
@@ -334,6 +294,7 @@ private int setProgress() {
     return position;
 }
 
+
 public void onBufferingUpdate(int percent) {
 	//Toast.makeText(getContext(), ">>", Toast.LENGTH_SHORT).show();
 	//int currentProgress = mProgress.getMax() * mPlayer.getCurrentPosition() / mPlayer.getDuration(); 
@@ -343,13 +304,13 @@ public void onBufferingUpdate(int percent) {
 
 @Override
 public boolean onTouchEvent(MotionEvent event) {
-    show(sDefaultTimeout);
+    //show(sDefaultTimeout);
     return true;
 }
 
 @Override
 public boolean onTrackballEvent(MotionEvent ev) {
-    show(sDefaultTimeout);
+    //show(sDefaultTimeout);
     return false;
 }
 
@@ -358,38 +319,25 @@ public boolean dispatchKeyEvent(KeyEvent event) {
     if (mPlayer == null) {
         return true;
     }
-    int keyCode = event.getKeyCode();    
-    if(keyCode == KeyEvent.KEYCODE_DPAD_RIGHT){   	
-    	if (mPlayer == null) {
-            return false;
-        }  	
-    	int pos = mPlayer.getCurrentPosition();
-        pos += 5000; // milliseconds
-        mPlayer.seekTo(pos);
-        setProgress();    	
-    }else if(keyCode == KeyEvent.KEYCODE_DPAD_LEFT){    	
-    	if (mPlayer == null) {
-            return false;
-        }
-        int pos = mPlayer.getCurrentPosition();
-        pos -= 5000; // milliseconds
-        mPlayer.seekTo(pos);
-        setProgress();
-    }
-    show(sDefaultTimeout);
     return super.dispatchKeyEvent(event);
+}
+
+public void dispatchright(){
+	int pos = mPlayer.getCurrentPosition();
+    pos += 50000; // milliseconds
+    setProgress();
+    mPlayer.seekTo(pos);
+}
+public void dispatchleft(){
+	int pos = mPlayer.getCurrentPosition();
+    pos -= 50000; // milliseconds
+    setProgress();
+    mPlayer.seekTo(pos);
 }
 
 private OnClickListener mPauseListener = new OnClickListener() {
     public void onClick(View v) {
         doPauseResume();
-        show(sDefaultTimeout);
-    }
-};
-
-private OnClickListener mFullscreenListener = new OnClickListener() {
-    public void onClick(View v) {
-        doToggleFullscreen();
         show(sDefaultTimeout);
     }
 };
@@ -408,19 +356,6 @@ public void updatePausePlay() {
     }
 }
 
-public void updateFullScreen() {
-    if (mRoot == null || mFullscreenButton == null || mPlayer == null) {
-        return;
-    }
-
-    /*if (mPlayer.isFullScreen()) {
-        mFullscreenButton.setImageResource(R.drawable.ic_media_fullscreen_shrink);
-    }
-    else {
-        mFullscreenButton.setImageResource(R.drawable.ic_media_fullscreen_stretch);
-    }*/
-}
-
 private void doPauseResume() {
     if (mPlayer == null) {
         return;
@@ -434,36 +369,11 @@ private void doPauseResume() {
     updatePausePlay();
 }
 
-private void doToggleFullscreen() {
-    if (mPlayer == null) {
-        return;
-    }
 
-    mPlayer.toggleFullScreen();
-}
-
-// There are two scenarios that can trigger the seekbar listener to trigger:
-//
-// The first is the user using the touchpad to adjust the posititon of the
-// seekbar's thumb. In this case onStartTrackingTouch is called followed by
-// a number of onProgressChanged notifications, concluded by onStopTrackingTouch.
-// We're setting the field "mDragging" to true for the duration of the dragging
-// session to avoid jumps in the position in case of ongoing playback.
-//
-// The second scenario involves the user operating the scroll ball, in this
-// case there WON'T BE onStartTrackingTouch/onStopTrackingTouch notifications,
-// we will simply apply the updated position without suspending regular updates.
 private OnSeekBarChangeListener mSeekListener = new OnSeekBarChangeListener() {
     public void onStartTrackingTouch(SeekBar bar) {
         show(3600000);
-
         mDragging = true;
-
-        // By removing these pending progress messages we make sure
-        // that a) we won't update the progress while the user adjusts
-        // the seekbar and b) once the user is done dragging the thumb
-        // we will post one of these messages to the queue again and
-        // this ensures that there will be exactly one message queued up.
         mHandler.removeMessages(SHOW_PROGRESS);
     }
 
@@ -473,8 +383,6 @@ private OnSeekBarChangeListener mSeekListener = new OnSeekBarChangeListener() {
         }
 
         if (!fromuser) {
-            // We're not interested in programmatically generated changes to
-            // the progress bar's position.
             return;
         }
 
@@ -491,9 +399,6 @@ private OnSeekBarChangeListener mSeekListener = new OnSeekBarChangeListener() {
         updatePausePlay();
         show(sDefaultTimeout);
 
-        // Ensure that progress is properly updated in the future,
-        // the call to show() does not guarantee this because it is a
-        // no-op if we are already showing.
         mHandler.sendEmptyMessage(SHOW_PROGRESS);
     }
 };
@@ -530,9 +435,8 @@ private OnClickListener mRewListener = new OnClickListener() {
 
         int pos = mPlayer.getCurrentPosition();
         pos -= 5000; // milliseconds
-        mPlayer.seekTo(pos);
         setProgress();
-
+        mPlayer.seekTo(pos);
         show(sDefaultTimeout);
     }
 };
@@ -545,9 +449,8 @@ private OnClickListener mFfwdListener = new OnClickListener() {
 
         int pos = mPlayer.getCurrentPosition();
         pos += 5000; // milliseconds
-        mPlayer.seekTo(pos);
         setProgress();
-
+        mPlayer.seekTo(pos);
         show(sDefaultTimeout);
     }
 };

@@ -1,8 +1,9 @@
 package com.bais.cordova.video;
 
-import cn.com.ebais.kyytvali.R;
 import java.io.IOException;
 import java.util.ArrayList;
+
+import tw.com.bais.demoview.R;
 import android.app.Activity;
 import android.content.Context;
 import android.content.pm.ActivityInfo;
@@ -13,6 +14,7 @@ import android.media.MediaPlayer.OnBufferingUpdateListener;
 import android.media.MediaPlayer.OnCompletionListener;
 import android.media.MediaPlayer.OnErrorListener;
 import android.media.MediaPlayer.OnInfoListener;
+import android.media.MediaPlayer.OnPreparedListener;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -28,7 +30,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-public class VideoPlayerActivity extends Activity implements SurfaceHolder.Callback, MediaPlayer.OnPreparedListener, VideoControllerView.MediaPlayerControl, OnInfoListener, OnErrorListener, OnCompletionListener, OnBufferingUpdateListener {
+public class VideoPlayerActivity extends Activity implements SurfaceHolder.Callback, VideoControllerView.MediaPlayerControl, OnPreparedListener, OnInfoListener, OnErrorListener, OnCompletionListener, OnBufferingUpdateListener {
     
      private Bundle extras;
 	 private int number;
@@ -42,19 +44,24 @@ public class VideoPlayerActivity extends Activity implements SurfaceHolder.Callb
 	 //private FrameLayout waitinging;
 	 //private ImageView waiting;
 	 private boolean yes;
-	 private int iscreate = 0;
 	 private int gposition = 0;
+	 private int ii = 1;
+	 private int bb = 1;
 	 private boolean err = true;
+	 private Runnable r;
+	 private boolean onll = false;
+	 private Handler handler = new Handler();
 	
     @Override
     protected void onCreate(Bundle savedInstanceState) {
     	super.onCreate(savedInstanceState);
     	
-		if(isNetworkConnected(this) == false){
+		/*if(isNetworkConnected(this) == false){
 			this.finish();
 			Toast.makeText(getBaseContext(), "网路中断，请检查网路连线。", Toast.LENGTH_SHORT).show();		
 			return;
-		}
+		}*/
+    	//onbtnPingClicked();  
 
 		int currentOrientation = getResources().getConfiguration().orientation;	
 		switch(currentOrientation) {
@@ -91,15 +98,53 @@ public class VideoPlayerActivity extends Activity implements SurfaceHolder.Callb
     	player.setOnBufferingUpdateListener(this);
     	player.setOnErrorListener(this);
     	player.setOnInfoListener(this);
-   		playering(totle);
-   		iscreate = 1;
-   		totle++;
+    	onPlayers();
+    	totle++;
+    	onll = true;
+    }  
+    
+    public void onPlayers(){
+    	//Toast.makeText(getBaseContext(), "onPlayers onPlayers"+bb, Toast.LENGTH_SHORT).show();	
+    	r = new Runnable(){    
+		    public void run() {
+		    	playering(0);
+		    	onPlayers();
+		    	bb++;
+		    }    
+		};
+		if(bb==10){
+			android.os.Process.killProcess(android.os.Process.myPid());
+			Toast.makeText(getBaseContext(), "播放失败,请确认网路连线。", Toast.LENGTH_SHORT).show();	
+			return ;
+		}
+		handler.postDelayed(r, 3000);   	    	
+    }
+    
+    public void onbtnPingClicked(){
+    	r = new Runnable(){    
+		    public void run() {
+		    	isConnected();
+		    	onbtnPingClicked();
+		    }    
+		};
+    	new Handler().postDelayed(r, 1000);             
+    }
+    private boolean isConnected(){
+        if (!isNetworkConnected(this)){
+        	 ii++;
+        }
+		return false;
     }    
 
     public void playering(int mm){
     	try {
     		player.setDataSource(mediaurls.get(mm));
     		player.prepare();
+    		start();
+        	if(err == false){
+    	    	seekTo(gposition);
+    	     	err = true;
+    	     }
         } catch (IOException e) {
             e.printStackTrace();
         } 
@@ -107,7 +152,7 @@ public class VideoPlayerActivity extends Activity implements SurfaceHolder.Callb
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-    	controller.show();	        
+        controller.show();
         return false;
     }
 
@@ -129,84 +174,46 @@ public class VideoPlayerActivity extends Activity implements SurfaceHolder.Callb
     // Implement MediaPlayer.OnPreparedListener
     @Override
     public void onPrepared(MediaPlayer mp) {
-       	
-       controller.setMediaPlayer(this);
-       controller.setAnchorView((FrameLayout) findViewById(R.id.videoSurfaceContainer));
-       
-       if(err == false){
-			player.seekTo(gposition);
-	    	loading.setVisibility(View.GONE);
-    	   return ;
-       }   
-       
-       //**初始/連播**//
-       if(iscreate == 1){
-			new Handler().postDelayed(new Runnable(){    
-			    public void run() {
-			        player.start();
-			        iscreate = 0;
-			        loading.setVisibility(View.GONE);
-			    }    
-			}, 30000);
-       }else if(iscreate == 0){
-	        player.start();	 
-	        loading.setVisibility(View.GONE);
-       }
-
+	    controller.setMediaPlayer(this);
+	    controller.setAnchorView((FrameLayout) findViewById(R.id.videoSurfaceContainer));
     }
-    
+
+	public void timerTask(Runnable m){
+		handler.removeCallbacks(m);
+	}
+
 	@Override
 	public boolean onInfo(MediaPlayer mp, int what, int extra) {
-		if(player.getCurrentPosition()>0){
-	    	gposition = player.getCurrentPosition();
+		if(mp.getCurrentPosition()>0){
+			gposition = mp.getCurrentPosition();
+			loading.setVisibility(View.GONE);
 	    	controller.updatePausePlay();
+	     	ii=1;
+		     	if(onll==true){
+		     		timerTask(r);
+		     		onll=false;
+		     	}	     	
 		}
-		
-		if(player.getCurrentPosition()==0){
-			player.reset();
-			playering(totle-1);
-			player.start();	
-			//Toast.makeText(getApplication(), "onInfo onInfo >>", Toast.LENGTH_SHORT).show();
-		}
-		
-		
-		
-		/*switch (what) {  
-        case MediaPlayer.MEDIA_INFO_BUFFERING_START:          	
-        	player.pause();
-        	//waitinging.setVisibility(View.VISIBLE);  
-            break;  
-        case MediaPlayer.MEDIA_INFO_BUFFERING_END:       	
-        	new Handler().postDelayed(new Runnable(){    
-        		public void run() {    
-        			player.start();
-        			//waitinging.setVisibility(View.GONE);
-        		}    
-        	 }, 3000);     	
-            break;  
-        }  */
         return false;  
 	}    
     
     @Override
 	public void onCompletion(MediaPlayer mp) {	
-   		loading.setVisibility(View.VISIBLE);   	
-        if(err == false){
-     	   return ;
-        }         
-        player.reset();
-		if(number==2)
-		{
-			//Log.i("................onCompletion", totle+">>>>");	
+    	loading.setVisibility(View.VISIBLE); 
+    	if(err == false){
+    		return;
+    	}  
+    	Toast.makeText(getApplication(), totle+">>onCompletion", Toast.LENGTH_SHORT).show();
+		if(number==2){
+		    player.reset();
 			playering(totle);
 			totle++;
 				if(totle == mediaurls.size()){
 	   				totle = 0;
 	   			}
-			
    			return;
 		}
-		finish();	 
+		android.os.Process.killProcess(android.os.Process.myPid());	 
 	}
     
 	@Override
@@ -218,8 +225,6 @@ public class VideoPlayerActivity extends Activity implements SurfaceHolder.Callb
 	@Override
     protected void onDestroy() {
         super.onDestroy();        
-        yes = true;
-        finish();
         //Log.i("..............", "onDestory()............");
         return ;
     }
@@ -227,47 +232,55 @@ public class VideoPlayerActivity extends Activity implements SurfaceHolder.Callb
 	 @Override
 	 protected void onStop() {
 	    super.onStop();
-	    yes = true;
-	    finish();
 	   // Log.i("................", "onStop()............");
 	    return ; 
-	 }
-
-	
+	 }	
 
 	@Override
 	public boolean onError(final MediaPlayer mp, final int what, final int extra){
-		//LOG.e(".............................", "("+what+","+extra+")");
-		//LOG.i(".............................", "("+what+","+extra+")");
-		//Toast.makeText(getBaseContext(), "onError "+"("+what+","+extra+")", Toast.LENGTH_SHORT).show(); 
+		ii++;
 		err = false;
-		if(yes!=true){
-			player.reset();
-			playering(totle-1);
-			player.start();	
-			
-				new Handler().postDelayed(new Runnable(){    
-				    public void run() {
-				    	if(player.getCurrentPosition()>0){
-				    		err = true;
-				    		return ;
-				    	}				    	
-						Toast.makeText(getBaseContext(), "连线中断，请重新点选课程。", Toast.LENGTH_SHORT).show();
-						finish();
-				    }    
-				}, 20000);	
+		if(yes!=true){		
+			errstart();
 		}				
 		return false;		
 	}
 	
+    public void errstart(){   		
+    	if(ii>20){
+    		Toast.makeText(getBaseContext(), "连线中断，请重新点选课程。", Toast.LENGTH_SHORT).show();
+    	}
+		if(ii==60){
+			android.os.Process.killProcess(android.os.Process.myPid());	
+			return ;
+		}
+			player.reset();
+			playering(totle-1);
+    } 
     public boolean dispatchKeyEvent (KeyEvent event) {
-    	
-    	if( event.getKeyCode() == KeyEvent.KEYCODE_ESCAPE || event.getKeyCode() == 4){
-        	finish();
-        	return false;
+    	//onUserInteraction();
+    	controller.show();	
+        if(event.getKeyCode() == KeyEvent.KEYCODE_DPAD_RIGHT && event.getAction() == KeyEvent.ACTION_DOWN){
+        	controller.dispatchright();
+        	return true;
+        }else if(event.getKeyCode() == KeyEvent.KEYCODE_DPAD_LEFT && event.getAction() == KeyEvent.ACTION_DOWN){
+             controller.dispatchleft();
+             return true;
+        }else if(event.getKeyCode() == 62 && event.getAction() == KeyEvent.ACTION_DOWN){
+        	if(player.isPlaying()){
+            	player.pause();  
+            	return true;
+        	}else{
+        		player.start();
+        		return true;
+        	}
+        }else if( event.getKeyCode() == KeyEvent.KEYCODE_ESCAPE || event.getKeyCode() == 4){
+    		yes = true;
+    		android.os.Process.killProcess(android.os.Process.myPid());
+    		return false;
         }
-		return controller.dispatchKeyEvent(event);
-	}
+       return super.dispatchKeyEvent(event);
+	}    
 	
     @Override
     public boolean canPause() {
