@@ -3,7 +3,7 @@ package com.bais.cordova.video;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import tw.com.bais.demoview.R;
+import cn.com.ebais.kyytvhismart.R;
 import android.app.Activity;
 import android.content.Context;
 import android.content.pm.ActivityInfo;
