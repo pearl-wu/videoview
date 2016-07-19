@@ -54,8 +54,8 @@
 	<source-file src="res/drawable-xhdpi/prev.png" target-dir="res/drawable-xhdpi" />
 	<source-file src="res/drawable-xhdpi/rew.png" target-dir="res/drawable-xhdpi" />
 	
-	<source-file src="res/layout/activity_video_player.xml" target-dir="res/layout/" />
-	<source-file src="res/layout/media_controller.xml" target-dir="res/layout/" />
+	<source-file src="res/layout/activity_video.xml" target-dir="res/layout/" />
+	<source-file src="res/layout/video_controller.xml" target-dir="res/layout/" />
 	<source-file src="res/values/styles.xml" target-dir="res/values/" />
 	
     </platform>
