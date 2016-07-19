@@ -28,7 +28,7 @@ import android.widget.RelativeLayout;
 import android.widget.Toast;
 import android.widget.VideoView;
 
-public class videocontroller extends Activity{
+public class VideoController extends Activity{
 	
 	 private Bundle extras;
 	 private int number;
