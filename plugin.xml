@@ -23,7 +23,7 @@
     	
     	<config-file target="AndroidManifest.xml" parent="/manifest/application">
 		<activity android:configChanges="orientation|screenSize" android:label="VideoPlayerActivity" android:name="com.bais.cordova.video.VideoPlayerActivity" />
-		<activity android:configChanges="orientation|screenSize" android:label="videocontroller" android:name="com.bais.cordova.video.videocontroller"   />
+		<activity android:configChanges="orientation|screenSize" android:label="VideoController" android:name="com.bais.cordova.video.VideoController"   />
 	</config-file>
     	
 	<config-file target="AndroidManifest.xml" parent="/*">
