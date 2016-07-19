@@ -39,7 +39,7 @@ public class VideoPlayer extends CordovaPlugin{
             	cordova.getActivity().runOnUiThread(new Runnable() {
             		@Override
             		public void run(){
-            			play(videocontroller.class, NUMBER, video_names);
+            			play(VideoController.class, NUMBER, video_names);
             		}
             	});
               return true;
