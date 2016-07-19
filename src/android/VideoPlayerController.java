@@ -112,7 +112,7 @@ public void setAnchorView(ViewGroup view) {
 
 protected View makeControllerView() {
     LayoutInflater inflate = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-    mRoot = inflate.inflate(R.layout.media_controller, null);
+    mRoot = inflate.inflate(R.layout.video_controller, null);
     initControllerView(mRoot);
     return mRoot;
 }
