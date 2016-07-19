@@ -61,15 +61,15 @@ public class VideoPlayerActivity extends Activity implements SurfaceHolder.Callb
 			Toast.makeText(getBaseContext(), "网路中断，请检查网路连线。", Toast.LENGTH_SHORT).show();		
 			return;
 		}*/
-    	//onbtnPingClicked();  
+    		//onbtnPingClicked();  
 
-		int currentOrientation = getResources().getConfiguration().orientation;	
-		switch(currentOrientation) {
+	int currentOrientation = getResources().getConfiguration().orientation;	
+	switch(currentOrientation) {
 	      case Configuration.ORIENTATION_PORTRAIT:
 	    	setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 	        //setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 	       break;
-	     }
+	 }
 
     	requestWindowFeature(Window.FEATURE_NO_TITLE);
 		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
@@ -78,15 +78,11 @@ public class VideoPlayerActivity extends Activity implements SurfaceHolder.Callb
         extras = getIntent().getExtras();
         number = extras.getInt("medianumber");
         mediaurls = extras.getStringArrayList("mediaUrl");  
-        setContentView(R.layout.activity_video_player);
+        
+        setContentView(R.layout.activity_video);
         videoSurface = (SurfaceView) findViewById(R.id.videoSurface);
-
         loading = (ImageView) findViewById(R.id.loading);
-        /*waitinging = (FrameLayout) findViewById(R.id.waitinging);
-        waiting = (ImageView) findViewById(R.id.imageView_w);
-        Animation am_w = AnimationUtils.loadAnimation(this, R.drawable.wait_anima);
-        waiting.startAnimation(am_w);
-        waitinging.setVisibility(View.GONE);*/
+
         
         videoHolder = videoSurface.getHolder();
         videoHolder.addCallback(this);
