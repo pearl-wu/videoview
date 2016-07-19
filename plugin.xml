@@ -38,8 +38,8 @@
             </feature>
         </config-file>
         <source-file src="src/android/VideoPlayer.java" target-dir="src/com/bais/cordova/video/" />
-        <source-file src="src/android/videocontroller.java" target-dir="src/com/bais/cordova/video/" />
-        <source-file src="src/android/VideoControllerView.java" target-dir="src/com/bais/cordova/video/" />
+        <source-file src="src/android/VideoController.java" target-dir="src/com/bais/cordova/video/" />
+        <source-file src="src/android/VideoPlayerController.java" target-dir="src/com/bais/cordova/video/" />
         <source-file src="src/android/VideoPlayerActivity.java" target-dir="src/com/bais/cordova/video/" />
         <source-file src="res/drawable/loading.png" target-dir="res/drawable/" />
 	<source-file src="res/drawable/sb_bar.xml" target-dir="res/drawable/" />
