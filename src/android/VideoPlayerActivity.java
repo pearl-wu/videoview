@@ -39,7 +39,7 @@ public class VideoPlayerActivity extends Activity implements SurfaceHolder.Callb
 	 private SurfaceView videoSurface;
 	 private SurfaceHolder videoHolder;
 	 private MediaPlayer player;
-	 private VideoControllerView controller;
+	 private VideoPlayerController controller;
 	 private ImageView loading;
 	 //private FrameLayout waitinging;
 	 //private ImageView waiting;
@@ -90,7 +90,7 @@ public class VideoPlayerActivity extends Activity implements SurfaceHolder.Callb
         
         videoHolder = videoSurface.getHolder();
         videoHolder.addCallback(this);
-        controller = new VideoControllerView(this);
+        controller = new VideoPlayerController(this);
         player = new MediaPlayer();
         player.setAudioStreamType(AudioManager.STREAM_MUSIC);
     	player.setOnCompletionListener(this);
