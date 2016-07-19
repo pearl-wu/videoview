@@ -30,8 +30,8 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-public class VideoPlayerActivity extends Activity implements SurfaceHolder.Callback, VideoControllerView.MediaPlayerControl, OnPreparedListener, OnInfoListener, OnErrorListener, OnCompletionListener, OnBufferingUpdateListener {
-    
+public class VideoPlayerActivity extends Activity implements SurfaceHolder.Callback, OnPreparedListener, OnInfoListener, OnErrorListener, OnCompletionListener, OnBufferingUpdateListener, MediaPlayerControl {
+  
      private Bundle extras;
 	 private int number;
 	 private int totle = 0;
