@@ -31,39 +31,30 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 public class VideoPlayerActivity extends Activity implements SurfaceHolder.Callback, OnPreparedListener, OnInfoListener, OnErrorListener, OnCompletionListener, OnBufferingUpdateListener, MediaPlayerControl {
-  
-     private Bundle extras;
-	 private int number;
-	 private int totle = 0;
-	 private ArrayList<String> mediaurls;
-	 private SurfaceView videoSurface;
-	 private SurfaceHolder videoHolder;
-	 private MediaPlayer player;
+    
+     private Bundle 				extras;
+	 private int 				number;
+	 private int 				totle = 0;
+	 private ArrayList<String>	mediaurls;
+	 private SurfaceView 		videoSurface;
+	 private SurfaceHolder 		videoHolder;
+	 private MediaPlayer 		player;
 	 private VideoPlayerController controller;
-	 private ImageView loading;
-	 //private FrameLayout waitinging;
-	 //private ImageView waiting;
-	 private boolean yes;
-	 private int gposition = 0;
-	 private int ii = 1;
-	 private int bb = 1;
-	 private boolean err = true;
-	 private Runnable r;
-	 private boolean onll = false;
-	 private Handler handler = new Handler();
+	 private ImageView 			loading;
+	 private boolean				yes;
+	 private int 				gposition = 0;
+	 private int 				ii = 1;
+	 private int 				bb = 1;
+	 private boolean 			err = true;
+	 private Runnable 			r;
+	 private boolean 			onll = false;
+	 private Handler 			handler = new Handler();
 	
     @Override
     protected void onCreate(Bundle savedInstanceState) {
     	super.onCreate(savedInstanceState);
-    	
-		/*if(isNetworkConnected(this) == false){
-			this.finish();
-			Toast.makeText(getBaseContext(), "网路中断，请检查网路连线。", Toast.LENGTH_SHORT).show();		
-			return;
-		}*/
-    		//onbtnPingClicked();  
 
-	int currentOrientation = getResources().getConfiguration().orientation;	
+	int currentOrientation = getResources().getConfiguration().orientation;
 	switch(currentOrientation) {
 	      case Configuration.ORIENTATION_PORTRAIT:
 	    	setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
@@ -82,7 +73,6 @@ public class VideoPlayerActivity extends Activity implements SurfaceHolder.Callb
         setContentView(R.layout.activity_video);
         videoSurface = (SurfaceView) findViewById(R.id.videoSurface);
         loading = (ImageView) findViewById(R.id.loading);
-
         
         videoHolder = videoSurface.getHolder();
         videoHolder.addCallback(this);
@@ -94,61 +84,49 @@ public class VideoPlayerActivity extends Activity implements SurfaceHolder.Callb
     	player.setOnBufferingUpdateListener(this);
     	player.setOnErrorListener(this);
     	player.setOnInfoListener(this);
-    	onPlayers();
+
+		r = new Runnable(){
+			public void run() {
+				playering(0);
+				//Log.d(" pppppp", bb+"");
+				//bb++;
+			}
+		};
+		handler.postDelayed(r, 6000);
+
     	totle++;
     	onll = true;
-    }  
-    
-    public void onPlayers(){
-    	//Toast.makeText(getBaseContext(), "onPlayers onPlayers"+bb, Toast.LENGTH_SHORT).show();	
-    	r = new Runnable(){    
-		    public void run() {
-		    	playering(0);
-		    	onPlayers();
-		    	bb++;
-		    }    
-		};
-		if(bb==10){
-			android.os.Process.killProcess(android.os.Process.myPid());
-			Toast.makeText(getBaseContext(), "播放失败,请确认网路连线。", Toast.LENGTH_SHORT).show();	
-			return ;
-		}
-		handler.postDelayed(r, 3000);   	    	
     }
-    
-    public void onbtnPingClicked(){
-    	r = new Runnable(){    
-		    public void run() {
-		    	isConnected();
-		    	onbtnPingClicked();
-		    }    
-		};
-    	new Handler().postDelayed(r, 1000);             
-    }
-    private boolean isConnected(){
-        if (!isNetworkConnected(this)){
-        	 ii++;
-        }
-		return false;
-    }    
 
-    public void playering(int mm){
-    	try {
-    		player.setDataSource(mediaurls.get(mm));
-    		player.prepare();
-    		start();
-        	if(err == false){
-    	    	seekTo(gposition);
-    	     	err = true;
-    	     }
-        } catch (IOException e) {
-            e.printStackTrace();
-        } 
-    }
+	public void onPlayers(){
+		/*if(bb==6){
+			finish();
+			Toast.makeText(getBaseContext(), "播放失败,请确认网路连线。", Toast.LENGTH_SHORT).show();
+			return ;
+		}*/
+	}
+
+	public void playering(int mm) {
+		try {
+			player.setDataSource(mediaurls.get(mm));
+			player.prepare();
+			player.start();
+
+			if(err == false){
+				seekTo(gposition);
+				err = true;
+			}
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        controller.show();
+		if(!loading.isShown()) {
+        	controller.show();
+		}
         return false;
     }
 
@@ -174,42 +152,43 @@ public class VideoPlayerActivity extends Activity implements SurfaceHolder.Callb
 	    controller.setAnchorView((FrameLayout) findViewById(R.id.videoSurfaceContainer));
     }
 
-	public void timerTask(Runnable m){
-		handler.removeCallbacks(m);
-	}
-
 	@Override
 	public boolean onInfo(MediaPlayer mp, int what, int extra) {
 		if(mp.getCurrentPosition()>0){
 			gposition = mp.getCurrentPosition();
 			loading.setVisibility(View.GONE);
-	    	controller.updatePausePlay();
-	     	ii=1;
-		     	if(onll==true){
-		     		timerTask(r);
-		     		onll=false;
-		     	}	     	
+			controller.updatePausePlay();
+			ii=1;
+			if(onll==true){
+				onll=false;
+			}
 		}
-        return false;  
-	}    
-    
-    @Override
+		return false;
+	}
+
+	public void timerTask(Runnable m){
+		handler.removeCallbacks(m);
+	}
+
+	@Override
 	public void onCompletion(MediaPlayer mp) {	
-    	loading.setVisibility(View.VISIBLE); 
+    	//Toast.makeText(getApplication(), number+">>onCompletion", Toast.LENGTH_SHORT).show();
     	if(err == false){
+    		loading.setVisibility(View.VISIBLE); 
     		return;
-    	}  
-    	Toast.makeText(getApplication(), totle+">>onCompletion", Toast.LENGTH_SHORT).show();
-		if(number==2){
-		    player.reset();
+    	}
+    		
+		if(number==2) {
+			loading.setVisibility(View.VISIBLE);
+			player.reset();
 			playering(totle);
 			totle++;
-				if(totle == mediaurls.size()){
-	   				totle = 0;
-	   			}
-   			return;
+			if (totle == mediaurls.size()) {
+				totle = 0;
+			}
+			return;
 		}
-		android.os.Process.killProcess(android.os.Process.myPid());	 
+		finish();
 	}
     
 	@Override
@@ -233,48 +212,50 @@ public class VideoPlayerActivity extends Activity implements SurfaceHolder.Callb
 	 }	
 
 	@Override
-	public boolean onError(final MediaPlayer mp, final int what, final int extra){
+	public boolean onError(final MediaPlayer mp, final int what, final int extra) {
 		ii++;
 		err = false;
-		if(yes!=true){		
+		if(yes!=true) {
 			errstart();
 		}				
 		return false;		
 	}
 	
-    public void errstart(){   		
+    public void errstart() {
     	if(ii>20){
     		Toast.makeText(getBaseContext(), "连线中断，请重新点选课程。", Toast.LENGTH_SHORT).show();
     	}
-		if(ii==60){
-			android.os.Process.killProcess(android.os.Process.myPid());	
+		if(ii==60) {
+			finish();
 			return ;
 		}
 			player.reset();
 			playering(totle-1);
     } 
     public boolean dispatchKeyEvent (KeyEvent event) {
-    	//onUserInteraction();
-    	controller.show();	
-        if(event.getKeyCode() == KeyEvent.KEYCODE_DPAD_RIGHT && event.getAction() == KeyEvent.ACTION_DOWN){
-        	controller.dispatchright();
-        	return true;
-        }else if(event.getKeyCode() == KeyEvent.KEYCODE_DPAD_LEFT && event.getAction() == KeyEvent.ACTION_DOWN){
-             controller.dispatchleft();
-             return true;
-        }else if(event.getKeyCode() == 62 && event.getAction() == KeyEvent.ACTION_DOWN){
-        	if(player.isPlaying()){
-            	player.pause();  
-            	return true;
-        	}else{
-        		player.start();
-        		return true;
-        	}
-        }else if( event.getKeyCode() == KeyEvent.KEYCODE_ESCAPE || event.getKeyCode() == 4){
-    		yes = true;
-    		android.os.Process.killProcess(android.os.Process.myPid());
-    		return false;
-        }
+    	if(!loading.isShown()) {
+	    	controller.show();	
+	        if(event.getKeyCode() == KeyEvent.KEYCODE_DPAD_RIGHT && event.getAction() == KeyEvent.ACTION_DOWN) {
+	        	controller.dispatchright();
+	        	return true;
+	        }else if(event.getKeyCode() == KeyEvent.KEYCODE_DPAD_LEFT && event.getAction() == KeyEvent.ACTION_DOWN) {
+	             controller.dispatchleft();
+	             return true;
+	        }else if(event.getKeyCode() == 62 && event.getAction() == KeyEvent.ACTION_DOWN) {
+	        	if(player.isPlaying()) {
+	            	player.pause();  
+	            	return true;
+	        	}else{
+	        		player.start();
+	        		return true;
+	        	}
+	        }else if( event.getKeyCode() == KeyEvent.KEYCODE_ESCAPE || event.getKeyCode() == 4) {
+	    		yes = true;
+	        	player.stop();
+	    		finish();	    		 
+	    		return false;
+	        }
+    	}
        return super.dispatchKeyEvent(event);
 	}    
 	
@@ -316,7 +297,7 @@ public class VideoPlayerActivity extends Activity implements SurfaceHolder.Callb
 
     @Override
     public void pause() {
-        player.pause();
+      player.pause();
     }
 
     @Override
