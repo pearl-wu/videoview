@@ -2,10 +2,11 @@ package com.bais.cordova.video;
 
 import java.io.IOException;
 import java.util.ArrayList;
-
+import com.bais.cordova.video.VideoPlayerController.MediaPlayerControl;
 import cn.com.ebais.kyytvhismart.R;
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.media.AudioManager;
@@ -19,6 +20,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
@@ -41,14 +43,14 @@ public class VideoPlayerActivity extends Activity implements SurfaceHolder.Callb
 	 private MediaPlayer 		player;
 	 private VideoPlayerController controller;
 	 private ImageView 			loading;
-	 private boolean				yes;
-	 private int 				gposition = 0;
-	 private int 				ii = 1;
-	 private int 				bb = 1;
-	 private boolean 			err = true;
-	 private Runnable 			r;
-	 private boolean 			onll = false;
-	 private Handler 			handler = new Handler();
+	 private boolean yes;
+	 private int gposition = 0;
+	 private int ii = 1;
+	 private int bb = 1;
+	 private boolean err = true;
+	 private Runnable r;
+	 private boolean onll = false;
+	 private Handler handler = new Handler();
 	
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,22 +86,19 @@ public class VideoPlayerActivity extends Activity implements SurfaceHolder.Callb
     	player.setOnBufferingUpdateListener(this);
     	player.setOnErrorListener(this);
     	player.setOnInfoListener(this);
-
 		r = new Runnable(){
 			public void run() {
 				playering(0);
-				//Log.d(" pppppp", bb+"");
-				//bb++;
 			}
 		};
-		handler.postDelayed(r, 6000);
-
+		handler.postDelayed(r, 10000);
     	totle++;
     	onll = true;
     }
 
 	public void onPlayers(){
 		/*if(bb==6){
+			timerTask(r);
 			finish();
 			Toast.makeText(getBaseContext(), "播放失败,请确认网路连线。", Toast.LENGTH_SHORT).show();
 			return ;
@@ -111,12 +110,10 @@ public class VideoPlayerActivity extends Activity implements SurfaceHolder.Callb
 			player.setDataSource(mediaurls.get(mm));
 			player.prepare();
 			player.start();
-
 			if(err == false){
 				seekTo(gposition);
 				err = true;
 			}
-
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -160,6 +157,7 @@ public class VideoPlayerActivity extends Activity implements SurfaceHolder.Callb
 			controller.updatePausePlay();
 			ii=1;
 			if(onll==true){
+				timerTask(r);
 				onll=false;
 			}
 		}
@@ -252,6 +250,7 @@ public class VideoPlayerActivity extends Activity implements SurfaceHolder.Callb
 	        }else if( event.getKeyCode() == KeyEvent.KEYCODE_ESCAPE || event.getKeyCode() == 4) {
 	    		yes = true;
 	        	player.stop();
+				Log.d("dddddd","stop");
 	    		finish();	    		 
 	    		return false;
 	        }
