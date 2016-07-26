@@ -28,7 +28,8 @@ import java.lang.ref.WeakReference;
 import java.util.Formatter;
 import java.util.Locale;
 
-import cn.com.ebais.kyytvhismart.R;
+//import cn.com.ebais.kyytvhismart.R;
+import cn.com.ebais.kyytvali.R;
 
 public class VideoPlayerController extends FrameLayout {
 	
