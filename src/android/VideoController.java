@@ -2,8 +2,6 @@ package com.bais.cordova.video;
 
 
 import java.util.ArrayList;
-
-import cn.com.ebais.kyytvhismart.R;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
@@ -27,6 +25,9 @@ import android.widget.MediaController;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 import android.widget.VideoView;
+
+//import cn.com.ebais.kyytvhismart.R;
+import cn.com.ebais.kyytvail.R;
 
 public class VideoController extends Activity{
 	
