@@ -3,7 +3,6 @@ package com.bais.cordova.video;
 import java.io.IOException;
 import java.util.ArrayList;
 import com.bais.cordova.video.VideoPlayerController.MediaPlayerControl;
-import cn.com.ebais.kyytvhismart.R;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -32,9 +31,12 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+//import cn.com.ebais.kyytvhismart.R;
+import cn.com.ebais.kyytvali.R;
+
 public class VideoPlayerActivity extends Activity implements SurfaceHolder.Callback, OnPreparedListener, OnInfoListener, OnErrorListener, OnCompletionListener, OnBufferingUpdateListener, MediaPlayerControl {
     
-     private Bundle 				extras;
+     private Bundle 			extras;
 	 private int 				number;
 	 private int 				totle = 0;
 	 private ArrayList<String>	mediaurls;
@@ -43,14 +45,14 @@ public class VideoPlayerActivity extends Activity implements SurfaceHolder.Callb
 	 private MediaPlayer 		player;
 	 private VideoPlayerController controller;
 	 private ImageView 			loading;
-	 private boolean yes;
-	 private int gposition = 0;
-	 private int ii = 1;
-	 private int bb = 1;
-	 private boolean err = true;
-	 private Runnable r;
-	 private boolean onll = false;
-	 private Handler handler = new Handler();
+	 private boolean 			yes;
+	 private int 				gposition = 0;
+	 private int 				ii = 1;
+	 private int 				bb = 1;
+	 private boolean 			err = true;
+	 private Runnable 			r;
+	 private boolean 			onll = false;
+	 private Handler 			handler = new Handler();
 	
     @Override
     protected void onCreate(Bundle savedInstanceState) {
