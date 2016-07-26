@@ -27,7 +27,7 @@ import android.widget.Toast;
 import android.widget.VideoView;
 
 //import cn.com.ebais.kyytvhismart.R;
-import cn.com.ebais.kyytvail.R;
+import cn.com.ebais.kyytvali.R;
 
 public class VideoController extends Activity{
 	
